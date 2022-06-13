@@ -141,7 +141,7 @@ abstract class Response
   {
     $fields = explode('&', $this->body);
 
-    array_walk($fields, function (&$item, &$key) {
+    array_walk($fields, function (&$item) {
       list($key, $item) = explode('=', $item);
       $this->fields[$key] = urldecode(iconv('ISO-8859-1', 'UTF-8', $item));
     });

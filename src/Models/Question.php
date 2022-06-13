@@ -4,6 +4,7 @@ namespace Sf\PayboxGateway\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 /**
  * Class Question
@@ -43,7 +44,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Question extends Model
 {
-  protected $table = 'ppps_questions';
+  protected $table = 'pbx_questions';
 
   protected $fillable = [
     'version',
@@ -139,7 +140,7 @@ class Question extends Model
    */
   public function toArray()
   {
-    return array_intersect_key(parent::toArray(), array_flip([
+    return Arr::only(parent::toArray(), [
       'numquestion',
       'version',
       'type',
@@ -166,6 +167,6 @@ class Question extends Model
       '3dstatus',
       '3dxid',
       'hash',
-    ]));
+    ]);
   }
 }

@@ -2,6 +2,7 @@
 
 namespace Sf\PayboxGateway\Requests\PayboxDirect;
 
+use Illuminate\Support\Facades\App;
 use Sf\PayboxGateway\DirectQuestionField;
 use Sf\PayboxGateway\HttpClient\GuzzleHttpClient;
 use Sf\PayboxGateway\Jobs\NotifyPaymentStatus;
@@ -128,9 +129,11 @@ abstract class DirectRequest extends Request
     $response = new $responseClass(
       $this->client->request($this->getUrl(), $parameters)
     );
-    $response->setModel(
-      Response::create($this->buildResponseAttributes($response->getFields()))
-    );
+    if(!App::runningUnitTests()) {
+      $response->setModel(
+        Response::create($this->buildResponseAttributes($response->getFields()))
+      );
+    }
 
     $requestsWithNotifications = [
       QuestionTypeCode::CAPTURE_ONLY,
@@ -213,15 +216,19 @@ abstract class DirectRequest extends Request
       $this->storeMaskedField($field, $params, $originals);
     }
 
-    $question = Question::create($this->buildQuestionAttributes($params));
-    $params = array_change_key_case($question->toArray(), CASE_UPPER);
+    $numquestion = null;
+    if(!App::runningUnitTests()) {
+      $question = Question::create($this->buildQuestionAttributes($params));
+      $params = array_change_key_case($question->toArray(), CASE_UPPER);
+      $numquestion = $question->numquestion;
+    }
 
     foreach ($this->masked as $field) {
       $this->restoreMaskedField($field, $params, $originals);
     }
 
     $params[DirectQuestionField::PAYBOX_QUESTION_NUMBER] =
-      $question->numquestion;
+      $numquestion;
     $params[DirectQuestionField::HMAC] = $this->hmacHashGenerator->get($params);
 
     return $params;

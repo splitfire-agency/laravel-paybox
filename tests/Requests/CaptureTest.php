@@ -34,6 +34,7 @@ class CaptureTest extends UnitTestCase
 
     $sampleSite = 'SITE-NR';
     $sampleRank = 'SITE-RANK';
+    $samplePayboxBackOfficePassword = '1234';
 
     $this->config
       ->shouldReceive('get')
@@ -46,6 +47,9 @@ class CaptureTest extends UnitTestCase
       ->once()
       ->andReturn($sampleRank);
 
+    $this->config->shouldReceive('get')->with('paybox.direct_version', '00104')->once()->andReturn('00104');
+    $this->config->shouldReceive('get')->with('paybox.back_office_password')->once()->andReturn($samplePayboxBackOfficePassword);
+
     $parameters = $this->request->getParameters();
 
     $this->assertSame($sampleSite, $parameters['SITE']);
@@ -54,7 +58,7 @@ class CaptureTest extends UnitTestCase
     $this->assertSame('00002', $parameters['TYPE']);
     $this->assertSame($now->format('dmYHis'), $parameters['DATEQ']);
     $this->assertSame(null, $parameters['NUMQUESTION']);
-    $this->assertSame(null, $parameters['CLE']);
+    $this->assertSame($samplePayboxBackOfficePassword, $parameters['CLE']);
     $this->assertSame(null, $parameters['MONTANT']);
     $this->assertSame(null, $parameters['DEVISE']);
     $this->assertSame(null, $parameters['REFERENCE']);
@@ -155,35 +159,13 @@ class CaptureTest extends UnitTestCase
       ->with($sampleUrl, $parameters)
       ->once()
       ->andReturn($responseBody);
+    $this->config
+      ->shouldReceive('get')
+      ->with('paybox.notifications.enabled')
+      ->once()
+      ->andReturn(false);
 
     $response = $this->request->send();
-    $this->assertTrue($response instanceof CaptureResponse);
-    $this->assertSame($responseBody, $response->getBody());
-  }
-
-  /** @test */
-  public function send_it_sends_request_and_return_response_when_parameters_given()
-  {
-    $parameters = [
-      'a' => 'b',
-      'c' => 'd',
-    ];
-    $sampleUrl = 'https://example.com';
-    $responseBody = 'foo=bar&x=z';
-
-    $this->request->shouldNotReceive('getParameters');
-    $this->request
-      ->shouldReceive('getUrl')
-      ->withNoArgs()
-      ->once()
-      ->andReturn($sampleUrl);
-    $this->client
-      ->shouldReceive('request')
-      ->with($sampleUrl, $parameters)
-      ->once()
-      ->andReturn($responseBody);
-
-    $response = $this->request->send($parameters);
     $this->assertTrue($response instanceof CaptureResponse);
     $this->assertSame($responseBody, $response->getBody());
   }

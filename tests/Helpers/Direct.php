@@ -2,6 +2,7 @@
 
 namespace Tests\Helpers;
 
+use Sf\PayboxGateway\Models\Question;
 use Sf\PayboxGateway\Requests\PayboxDirect\DirectRequest;
 use Sf\PayboxGateway\Requests\Request;
 use Sf\PayboxGateway\Services\Amount;
@@ -57,7 +58,7 @@ trait Direct
   {
     $this->serverSelector = Mockery::mock(ServerSelector::class);
     $this->config = Mockery::mock(Config::class);
-    $this->hmacHashGenerator = Mockery::mock(HmacHashGenerator::class);
+    $this->hmacHashGenerator = new HmacHashGenerator($this->app);
     $this->amountService = Mockery::mock(Amount::class);
     $this->client = Mockery::mock(GuzzleHttpClient::class);
     $this->request = Mockery::mock($class, [
