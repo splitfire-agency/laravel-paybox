@@ -18,7 +18,7 @@ class AmountTest extends UnitTestCase
   public function testValidAmountWithDot()
   {
     $service = new Amount();
-    $this->assertSame('10022', $service->get(100.22, false));
+    $this->assertSame("10022", $service->get(100.22, false));
   }
 
   /**
@@ -27,7 +27,7 @@ class AmountTest extends UnitTestCase
   public function testValidAmountWithComma()
   {
     $service = new Amount();
-    $this->assertSame('210045', $service->get('2100,45', false));
+    $this->assertSame("210045", $service->get("2100,45", false));
   }
 
   /**
@@ -36,7 +36,7 @@ class AmountTest extends UnitTestCase
   public function testValidAmountWithDotAndFill()
   {
     $service = new Amount();
-    $this->assertSame('0000010022', $service->get(100.22, true));
+    $this->assertSame("0000010022", $service->get(100.22, true));
   }
 
   /**
@@ -45,7 +45,7 @@ class AmountTest extends UnitTestCase
   public function testValidAmountWithCommaAndFill()
   {
     $service = new Amount();
-    $this->assertSame('0000210045', $service->get('2100,45', true));
+    $this->assertSame("0000210045", $service->get("2100,45", true));
   }
 
   /**
@@ -54,7 +54,7 @@ class AmountTest extends UnitTestCase
   public function testValidAmountWithIntegerNumber()
   {
     $service = new Amount();
-    $this->assertSame('210000', $service->get(2100, false));
+    $this->assertSame("210000", $service->get(2100, false));
   }
 
   /**
@@ -63,7 +63,7 @@ class AmountTest extends UnitTestCase
   public function testValidAmountWithFloatIntegerNumber()
   {
     $service = new Amount();
-    $this->assertSame('210000', $service->get(2100.0, false));
+    $this->assertSame("210000", $service->get(2100.0, false));
   }
 
   /**
@@ -72,7 +72,7 @@ class AmountTest extends UnitTestCase
   public function testValidAmountWithVerySmallNumber()
   {
     $service = new Amount();
-    $this->assertSame('1', $service->get(0.01, false));
+    $this->assertSame("1", $service->get(0.01, false));
   }
 
   /**
@@ -81,6 +81,6 @@ class AmountTest extends UnitTestCase
   public function testValidAmountWithVerySmallNumberWhenFill()
   {
     $service = new Amount();
-    $this->assertSame('0000000001', $service->get(0.01, true));
+    $this->assertSame("0000000001", $service->get(0.01, true));
   }
 }

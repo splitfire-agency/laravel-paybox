@@ -44,35 +44,35 @@ use Illuminate\Support\Arr;
  */
 class Question extends Model
 {
-  protected $table = 'pbx_questions';
+  protected $table = "pbx_questions";
 
   protected $fillable = [
-    'version',
-    'type',
-    'site',
-    'rang',
-    'activite',
-    'dateq',
-    'reference',
-    'refabonne',
-    'montant',
-    'devise',
-    'porteur',
-    'dateval',
-    'cvv',
-    'numappel',
-    'numtrans',
-    'id3d',
-    '3dcavv',
-    '3dcavvalgo',
-    '3deci',
-    '3denrolled',
-    '3derror',
-    '3dsignval',
-    '3dstatus',
-    '3dxid',
-    'hash',
-    'wallet_id',
+    "version",
+    "type",
+    "site",
+    "rang",
+    "activite",
+    "dateq",
+    "reference",
+    "refabonne",
+    "montant",
+    "devise",
+    "porteur",
+    "dateval",
+    "cvv",
+    "numappel",
+    "numtrans",
+    "id3d",
+    "3dcavv",
+    "3dcavvalgo",
+    "3deci",
+    "3denrolled",
+    "3derror",
+    "3dsignval",
+    "3dstatus",
+    "3dxid",
+    "hash",
+    "wallet_id",
   ];
 
   /**
@@ -88,7 +88,7 @@ class Question extends Model
       $question->numquestion = str_pad(
         $question->id % 2147483647,
         10,
-        '0',
+        "0",
         STR_PAD_LEFT
       );
       $question->save();
@@ -102,7 +102,7 @@ class Question extends Model
    */
   private static function maskCardControlNumber($value)
   {
-    return preg_replace('/./', 'X', $value);
+    return preg_replace("/./", "X", $value);
   }
 
   /**
@@ -113,7 +113,7 @@ class Question extends Model
   public static function maskCardNumber($value)
   {
     return preg_match('/^[0-9]{16}$/', $value)
-      ? substr($value, 0, 4) . str_repeat('X', 8) . substr($value, -4)
+      ? substr($value, 0, 4) . str_repeat("X", 8) . substr($value, -4)
       : $value;
   }
 
@@ -122,7 +122,7 @@ class Question extends Model
    */
   public function setPorteurAttribute($value)
   {
-    $this->attributes['porteur'] = self::maskCardNumber($value);
+    $this->attributes["porteur"] = self::maskCardNumber($value);
   }
 
   /**
@@ -130,7 +130,7 @@ class Question extends Model
    */
   public function setCvvAttribute($value)
   {
-    $this->attributes['cvv'] = self::maskCardControlNumber($value);
+    $this->attributes["cvv"] = self::maskCardControlNumber($value);
   }
 
   /**
@@ -141,32 +141,32 @@ class Question extends Model
   public function toArray()
   {
     return Arr::only(parent::toArray(), [
-      'numquestion',
-      'version',
-      'type',
-      'site',
-      'rang',
-      'activite',
-      'dateq',
-      'reference',
-      'refabonne',
-      'montant',
-      'devise',
-      'porteur',
-      'dateval',
-      'cvv',
-      'numappel',
-      'numtrans',
-      'id3d',
-      '3dcavv',
-      '3dcavvalgo',
-      '3deci',
-      '3denrolled',
-      '3derror',
-      '3dsignval',
-      '3dstatus',
-      '3dxid',
-      'hash',
+      "numquestion",
+      "version",
+      "type",
+      "site",
+      "rang",
+      "activite",
+      "dateq",
+      "reference",
+      "refabonne",
+      "montant",
+      "devise",
+      "porteur",
+      "dateval",
+      "cvv",
+      "numappel",
+      "numtrans",
+      "id3d",
+      "3dcavv",
+      "3dcavvalgo",
+      "3deci",
+      "3denrolled",
+      "3derror",
+      "3dsignval",
+      "3dstatus",
+      "3dxid",
+      "hash",
     ]);
   }
 }

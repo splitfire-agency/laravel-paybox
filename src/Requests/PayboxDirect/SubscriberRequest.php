@@ -32,8 +32,8 @@ abstract class SubscriberRequest extends DirectRequest
   {
     $this->walletId = $wallet->id;
     $this->subscriberNumber = sprintf(
-      '%s%010d',
-      $this->config->get('paybox.wallet_prefix'),
+      "%s%010d",
+      $this->config->get("paybox.wallet_prefix"),
       $wallet->id
     );
     $this->subscriberWallet = $wallet->paybox_id;
@@ -79,7 +79,7 @@ abstract class SubscriberRequest extends DirectRequest
     $params = parent::buildQuestionAttributes($params);
 
     if (!empty($this->walletId)) {
-      $params['wallet_id'] = $this->walletId;
+      $params["wallet_id"] = $this->walletId;
     }
 
     return $params;
@@ -95,7 +95,7 @@ abstract class SubscriberRequest extends DirectRequest
     $params = parent::buildResponseAttributes($params);
 
     if (!empty($this->walletId)) {
-      $params['wallet_id'] = $this->walletId;
+      $params["wallet_id"] = $this->walletId;
     }
 
     return $params;

@@ -13,12 +13,12 @@ class CreatePbxWalletsTable extends Migration
    */
   public function up()
   {
-    Schema::create('pbx_wallets', function (Blueprint $table) {
-      $table->increments('id');
-      $table->string('subscriber_id', 191)->index();
-      $table->string('card_number', 19);
-      $table->timestamp('card_expiration_date')->nullable();
-      $table->string('paybox_id', 19)->nullable();
+    Schema::create("pbx_wallets", function (Blueprint $table) {
+      $table->increments("id");
+      $table->string("subscriber_id", 191)->index();
+      $table->string("card_number", 19);
+      $table->timestamp("card_expiration_date")->nullable();
+      $table->string("paybox_id", 19)->nullable();
       $table->timestamps();
     });
   }
@@ -30,6 +30,6 @@ class CreatePbxWalletsTable extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('pbx_wallets');
+    Schema::dropIfExists("pbx_wallets");
   }
 }

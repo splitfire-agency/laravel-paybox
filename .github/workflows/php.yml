@@ -27,7 +27,7 @@ jobs:
         run: docker-compose exec -T api bash -c "composer run test"
 
   linter:
-    name: api-lint
+    name: php-lint
 
     runs-on: ubuntu-latest
 

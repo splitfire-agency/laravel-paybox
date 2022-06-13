@@ -8,7 +8,7 @@ class PayboxServiceProvider extends ServiceProvider
 {
   public function boot()
   {
-    $this->loadTranslationsFrom(__DIR__ . '/../../translations', 'paybox');
+    $this->loadTranslationsFrom(__DIR__ . "/../../translations", "paybox");
   }
 
   /**
@@ -17,18 +17,18 @@ class PayboxServiceProvider extends ServiceProvider
   public function register()
   {
     // merge module config if it's not published or some entries are missing
-    $this->mergeConfigFrom($this->configFile(), 'paybox');
+    $this->mergeConfigFrom($this->configFile(), "paybox");
 
     // run migrations
-    $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+    $this->loadMigrationsFrom(__DIR__ . "/../../database/migrations");
 
     // publish configuration file
     $this->publishes(
       [
         $this->configFile() =>
-          $this->app['path.config'] . DIRECTORY_SEPARATOR . 'paybox.php',
+          $this->app["path.config"] . DIRECTORY_SEPARATOR . "paybox.php",
       ],
-      'config'
+      "config"
     );
   }
 
@@ -39,6 +39,6 @@ class PayboxServiceProvider extends ServiceProvider
    */
   protected function configFile()
   {
-    return realpath(__DIR__ . '/../../config/paybox.php');
+    return realpath(__DIR__ . "/../../config/paybox.php");
   }
 }

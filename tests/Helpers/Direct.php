@@ -66,7 +66,7 @@ trait Direct
       $this->config,
       $this->hmacHashGenerator,
       $this->amountService,
-      $this->client
+      $this->client,
     ])
       ->makePartial()
       ->shouldAllowMockingProtectedMethods();

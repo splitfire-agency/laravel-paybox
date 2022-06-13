@@ -33,29 +33,29 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Response extends Model
 {
-  protected $table = 'pbx_responses';
+  protected $table = "pbx_responses";
 
   protected $fillable = [
-    'numquestion',
-    'site',
-    'rang',
-    'codereponse',
-    'numappel',
-    'numtrans',
-    'autorisation',
-    'remise',
-    'typecarte',
-    'pays',
-    'porteur',
-    'refabonne',
-    'commentaire',
-    'status',
-    'sha',
-    'wallet_id',
+    "numquestion",
+    "site",
+    "rang",
+    "codereponse",
+    "numappel",
+    "numtrans",
+    "autorisation",
+    "remise",
+    "typecarte",
+    "pays",
+    "porteur",
+    "refabonne",
+    "commentaire",
+    "status",
+    "sha",
+    "wallet_id",
   ];
 
   public function wallet()
   {
-    return $this->belongsTo(Wallet::class, 'wallet_id', 'id');
+    return $this->belongsTo(Wallet::class, "wallet_id", "id");
   }
 }

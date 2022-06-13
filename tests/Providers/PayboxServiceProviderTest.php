@@ -21,8 +21,8 @@ class PayboxServiceProviderTest extends UnitTestCase
   {
     $app = Mockery::mock(Application::class);
 
-    $moduleConfigFile = realpath(__DIR__ . '/../../config/paybox.php');
-    $configPath = 'dummy/config/path';
+    $moduleConfigFile = realpath(__DIR__ . "/../../config/paybox.php");
+    $configPath = "dummy/config/path";
 
     $payboxProvider = Mockery::mock(PayboxServiceProvider::class, [$app])
       ->makePartial()
@@ -30,18 +30,18 @@ class PayboxServiceProviderTest extends UnitTestCase
 
     // merge config
     $payboxProvider
-      ->shouldReceive('mergeConfigFrom')
-      ->with($moduleConfigFile, 'paybox')
+      ->shouldReceive("mergeConfigFrom")
+      ->with($moduleConfigFile, "paybox")
       ->once();
 
     // publishing configuration files
     $app
-      ->shouldReceive('offsetGet')
-      ->with('path.config')
+      ->shouldReceive("offsetGet")
+      ->with("path.config")
       ->once()
       ->andReturn($configPath);
 
-    $payboxProvider->shouldReceive('loadMigrationsFrom')->once();
+    $payboxProvider->shouldReceive("loadMigrationsFrom")->once();
 
     $payboxProvider->register();
   }

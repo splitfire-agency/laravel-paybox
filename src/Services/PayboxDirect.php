@@ -315,9 +315,9 @@ class PayboxDirect
 
     /** @var Wallet $wallet */
     $wallet = Wallet::create([
-      'subscriber_id' => $subscriberNumber,
-      'card_expiration_date' => $cardExpirationDate,
-      'card_number' => $cardNumber,
+      "subscriber_id" => $subscriberNumber,
+      "card_expiration_date" => $cardExpirationDate,
+      "card_number" => $cardNumber,
     ]);
 
     try {
@@ -372,7 +372,7 @@ class PayboxDirect
             throw new OperationFailedException(
               $e->getCode(),
               sprintf(
-                'Failed to delete wallet after capture failure: %s',
+                "Failed to delete wallet after capture failure: %s",
                 $e->getMessage()
               )
             );
@@ -381,7 +381,7 @@ class PayboxDirect
 
         throw new OperationFailedException(
           $e->getCode(),
-          sprintf('Failed to capture wallet: %s', $e->getMessage())
+          sprintf("Failed to capture wallet: %s", $e->getMessage())
         );
       }
     }
@@ -498,7 +498,7 @@ class PayboxDirect
   {
     $subscriberNumber = self::validateSubscriberNumber($subscriberNumber);
 
-    return Wallet::where('subscriber_id', '=', $subscriberNumber)->get();
+    return Wallet::where("subscriber_id", "=", $subscriberNumber)->get();
   }
 
   /**
@@ -526,7 +526,7 @@ class PayboxDirect
    */
   private static function validateCardNumber($cardNumber)
   {
-    $cardNumber = preg_replace('/[^0-9]+/', '', $cardNumber);
+    $cardNumber = preg_replace("/[^0-9]+/", "", $cardNumber);
 
     if (!preg_match('/^[0-9]{16}$/', $cardNumber)) {
       throw new InvalidCardNumberException();
@@ -543,7 +543,7 @@ class PayboxDirect
    */
   private static function validateCardControlNumber($cardControlNumber)
   {
-    $cardControlNumber = preg_replace('/[^0-9]+/', '', $cardControlNumber);
+    $cardControlNumber = preg_replace("/[^0-9]+/", "", $cardControlNumber);
 
     if (!preg_match('/^[0-9]{3,4}$/', $cardControlNumber)) {
       throw new InvalidCardControlNumberException();
@@ -594,7 +594,7 @@ class PayboxDirect
    */
   private static function validateCallNumber($callNumber)
   {
-    $callNumber = preg_replace('/[^0-9]+/', '', $callNumber);
+    $callNumber = preg_replace("/[^0-9]+/", "", $callNumber);
 
     if (!preg_match('/^[0-9]{10}$/', $callNumber)) {
       throw new InvalidCallNumberException();
@@ -611,7 +611,7 @@ class PayboxDirect
    */
   private static function validateTransactionNumber($transactionNumber)
   {
-    $transactionNumber = preg_replace('/[^0-9]+/', '', $transactionNumber);
+    $transactionNumber = preg_replace("/[^0-9]+/", "", $transactionNumber);
 
     if (!preg_match('/^[0-9]{10}$/', $transactionNumber)) {
       throw new InvalidTransactionNumberException();

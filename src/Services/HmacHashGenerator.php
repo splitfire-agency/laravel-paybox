@@ -19,7 +19,7 @@ class HmacHashGenerator
    */
   public function __construct(Application $app)
   {
-    $this->config = $app->make('config');
+    $this->config = $app->make("config");
   }
 
   /**
@@ -33,9 +33,9 @@ class HmacHashGenerator
   {
     return mb_strtoupper(
       hash_hmac(
-        'sha512',
+        "sha512",
         $this->getParamsString($params),
-        pack('H*', $this->getKey())
+        pack("H*", $this->getKey())
       )
     );
   }
@@ -47,7 +47,7 @@ class HmacHashGenerator
    */
   protected function getKey()
   {
-    return $this->config->get('paybox.hmac_key');
+    return $this->config->get("paybox.hmac_key");
   }
 
   /**
@@ -61,8 +61,8 @@ class HmacHashGenerator
   {
     return collect($params)
       ->map(function ($value, $key) {
-        return $key . '=' . $value;
+        return $key . "=" . $value;
       })
-      ->implode('&');
+      ->implode("&");
   }
 }

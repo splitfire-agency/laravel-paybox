@@ -31,6 +31,6 @@ class AuthorizationWithoutCaptureTest extends UnitTestCase
   {
     $this->ignoreMissingMethods();
     $parameters = $this->request->getParameters();
-    $this->assertSame('O', $parameters['PBX_AUTOSEULE']);
+    $this->assertSame("O", $parameters["PBX_AUTOSEULE"]);
   }
 }

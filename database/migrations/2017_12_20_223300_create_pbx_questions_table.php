@@ -13,30 +13,30 @@ class CreatePbxQuestionsTable extends Migration
    */
   public function up()
   {
-    Schema::create('pbx_questions', function (Blueprint $table) {
-      $table->increments('id');
+    Schema::create("pbx_questions", function (Blueprint $table) {
+      $table->increments("id");
       $table
-        ->string('numquestion', 10)
+        ->string("numquestion", 10)
         ->nullable()
         ->index();
-      $table->string('version', 5);
-      $table->string('hash', 40);
-      $table->string('type', 5);
-      $table->string('site', 7);
-      $table->string('rang', 3);
-      $table->string('dateq', 14);
-      $table->string('activite', 3)->nullable();
-      $table->string('reference', 250)->nullable();
-      $table->string('refabonne', 250)->nullable();
-      $table->string('montant', 10)->nullable();
-      $table->string('devise', 3)->nullable();
-      $table->string('porteur', 19)->nullable();
-      $table->string('dateval', 4)->nullable();
-      $table->string('cvv', 4)->nullable();
-      $table->string('numappel', 10)->nullable();
-      $table->string('numtrans', 10)->nullable();
+      $table->string("version", 5);
+      $table->string("hash", 40);
+      $table->string("type", 5);
+      $table->string("site", 7);
+      $table->string("rang", 3);
+      $table->string("dateq", 14);
+      $table->string("activite", 3)->nullable();
+      $table->string("reference", 250)->nullable();
+      $table->string("refabonne", 250)->nullable();
+      $table->string("montant", 10)->nullable();
+      $table->string("devise", 3)->nullable();
+      $table->string("porteur", 19)->nullable();
+      $table->string("dateval", 4)->nullable();
+      $table->string("cvv", 4)->nullable();
+      $table->string("numappel", 10)->nullable();
+      $table->string("numtrans", 10)->nullable();
       $table
-        ->unsignedInteger('wallet_id')
+        ->unsignedInteger("wallet_id")
         ->index()
         ->nullable();
       $table->timestamps();
@@ -50,6 +50,6 @@ class CreatePbxQuestionsTable extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('pbx_questions');
+    Schema::dropIfExists("pbx_questions");
   }
 }

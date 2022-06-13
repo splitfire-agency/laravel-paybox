@@ -22,20 +22,22 @@ class GuzzleHttpClientTest extends UnitTestCase
   {
     $client = Mockery::mock(Client::class);
     $response = Mockery::mock(ResponseInterface::class);
-    $url = 'http://example.com';
-    $parameters = ['a' => 'b', 'c' => 'd'];
-    $responseBody = 'foo=bar&baz=foo';
+    $url = "http://example.com";
+    $parameters = ["a" => "b", "c" => "d"];
+    $responseBody = "foo=bar&baz=foo";
 
-    $guzzleClient = Mockery::mock(GuzzleHttpClient::class, [$client])->makePartial();
+    $guzzleClient = Mockery::mock(GuzzleHttpClient::class, [
+      $client,
+    ])->makePartial();
 
     $client
-      ->shouldReceive('request')
-      ->with('POST', $url, ['form_params' => $parameters])
+      ->shouldReceive("request")
+      ->with("POST", $url, ["form_params" => $parameters])
       ->once()
       ->andReturn($response);
 
     $response
-      ->shouldReceive('getBody')
+      ->shouldReceive("getBody")
       ->once()
       ->andReturn($responseBody);
 

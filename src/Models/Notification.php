@@ -23,27 +23,27 @@ use Illuminate\Database\Eloquent\Model;
 class Notification extends Model
 {
   const MAX_RETRY_COUNT = 3;
-  const STATUS_PENDING = 'pending';
-  const STATUS_FAILED = 'failed';
-  const STATUS_DONE = 'done';
+  const STATUS_PENDING = "pending";
+  const STATUS_FAILED = "failed";
+  const STATUS_DONE = "done";
 
-  protected $table = 'pbx_notifications';
+  protected $table = "pbx_notifications";
 
-  protected $dates = ['notified_at'];
+  protected $dates = ["notified_at"];
 
   protected $casts = [
-    'data' => 'array',
+    "data" => "array",
   ];
 
   protected $fillable = [
-    'numquestion',
-    'reference',
-    'data',
-    'status',
-    'tries',
-    'return_code',
-    'return_content',
-    'notified_at',
+    "numquestion",
+    "reference",
+    "data",
+    "status",
+    "tries",
+    "return_code",
+    "return_content",
+    "notified_at",
   ];
 
   public static function createFromResponse(
@@ -52,16 +52,16 @@ class Notification extends Model
     $amount
   ) {
     return self::create([
-      'numquestion' => $response->numquestion,
-      'reference' => $reference,
-      'data' => [
-        'amount' => $amount,
-        'transaction_number' => $response->numtrans,
-        'call_number' => $response->numappel,
-        'remittance_number' => $response->remise,
+      "numquestion" => $response->numquestion,
+      "reference" => $reference,
+      "data" => [
+        "amount" => $amount,
+        "transaction_number" => $response->numtrans,
+        "call_number" => $response->numappel,
+        "remittance_number" => $response->remise,
       ],
-      'status' => self::STATUS_PENDING,
-      'tries' => 0,
+      "status" => self::STATUS_PENDING,
+      "tries" => 0,
     ]);
   }
 }

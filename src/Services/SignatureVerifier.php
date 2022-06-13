@@ -54,7 +54,7 @@ class SignatureVerifier
   protected function getKey()
   {
     return openssl_pkey_get_public(
-      $this->files->get($this->config->get('paybox.public_key'))
+      $this->files->get($this->config->get("paybox.public_key"))
     );
   }
 
@@ -69,8 +69,8 @@ class SignatureVerifier
   {
     return collect($parameters)
       ->map(function ($value, $key) {
-        return $key . '=' . $value;
+        return $key . "=" . $value;
       })
-      ->implode('&');
+      ->implode("&");
   }
 }

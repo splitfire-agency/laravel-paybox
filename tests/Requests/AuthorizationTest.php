@@ -31,17 +31,17 @@ class AuthorizationTest extends UnitTestCase
    */
   public function testGetParametersItReturnsAllParameters()
   {
-    $sampleParameters = ['a' => 'b', 'c' => 'd', 'e' => 'f'];
-    $sampleHmac = 'sampleHmacHash';
+    $sampleParameters = ["a" => "b", "c" => "d", "e" => "f"];
+    $sampleHmac = "sampleHmacHash";
 
     $this->request
-      ->shouldReceive('getBasicParameters')
+      ->shouldReceive("getBasicParameters")
       ->withNoArgs()
       ->once()
       ->andReturn($sampleParameters);
 
     $this->hmacHashGenerator
-      ->shouldReceive('get')
+      ->shouldReceive("get")
       ->with($sampleParameters)
       ->once()
       ->andReturn($sampleHmac);
@@ -49,7 +49,7 @@ class AuthorizationTest extends UnitTestCase
     $parameters = $this->request->getParameters();
 
     $this->assertEquals(
-      $sampleParameters + ['PBX_HMAC' => $sampleHmac],
+      $sampleParameters + ["PBX_HMAC" => $sampleHmac],
       $parameters
     );
   }
@@ -59,131 +59,131 @@ class AuthorizationTest extends UnitTestCase
    */
   public function testGetParametersItReturnsValidParameters()
   {
-    $sampleHmac = 'sampleHmacHash';
+    $sampleHmac = "sampleHmacHash";
 
     $this->request
-      ->shouldReceive('getBasicParameters')
+      ->shouldReceive("getBasicParameters")
       ->withNoArgs()
       ->once()
       ->passthru();
 
-    $sampleSite = 'SITE-NR';
-    $sampleRank = 'SITE-RANK';
-    $sampleId = 'SITE-ID';
-    $defaultParameters = ['a' => 'b', 'c' => 'd', 'e' => 'fg'];
-    $acceptedRoute = 'paybox.accepted';
-    $acceptedUrl = 'http://example.com/accepted-url';
-    $refusedRoute = 'paybox.refused';
-    $refusedUrl = 'http://example.com/refused-url';
-    $abortedRoute = 'paybox.aborted';
-    $abortedUrl = 'http://example.com/aborted-url';
-    $waitingRoute = 'paybox.waiting';
-    $waitingUrl = 'http://example.com/waiting-url';
-    $transactionRoute = 'paybox.transaction';
-    $transactionUrl = 'http://example.com/transaction-url';
+    $sampleSite = "SITE-NR";
+    $sampleRank = "SITE-RANK";
+    $sampleId = "SITE-ID";
+    $defaultParameters = ["a" => "b", "c" => "d", "e" => "fg"];
+    $acceptedRoute = "paybox.accepted";
+    $acceptedUrl = "http://example.com/accepted-url";
+    $refusedRoute = "paybox.refused";
+    $refusedUrl = "http://example.com/refused-url";
+    $abortedRoute = "paybox.aborted";
+    $abortedUrl = "http://example.com/aborted-url";
+    $waitingRoute = "paybox.waiting";
+    $waitingUrl = "http://example.com/waiting-url";
+    $transactionRoute = "paybox.transaction";
+    $transactionUrl = "http://example.com/transaction-url";
 
     $this->config
-      ->shouldReceive('get')
-      ->with('paybox.site')
+      ->shouldReceive("get")
+      ->with("paybox.site")
       ->once()
       ->andReturn($sampleSite);
     $this->config
-      ->shouldReceive('get')
-      ->with('paybox.rank')
+      ->shouldReceive("get")
+      ->with("paybox.rank")
       ->once()
       ->andReturn($sampleRank);
     $this->config
-      ->shouldReceive('get')
-      ->with('paybox.id')
+      ->shouldReceive("get")
+      ->with("paybox.id")
       ->once()
       ->andReturn($sampleId);
 
     $this->request
-      ->shouldReceive('getFormattedReturnFields')
+      ->shouldReceive("getFormattedReturnFields")
       ->withNoArgs()
       ->once()
       ->passthru();
     $this->config
-      ->shouldReceive('get')
-      ->with('paybox.return_fields')
+      ->shouldReceive("get")
+      ->with("paybox.return_fields")
       ->once()
       ->andReturn($defaultParameters);
 
     $this->config
-      ->shouldReceive('get')
-      ->with('paybox.customer_return_routes_names.accepted')
+      ->shouldReceive("get")
+      ->with("paybox.customer_return_routes_names.accepted")
       ->once()
       ->andReturn($acceptedRoute);
     $this->urlGenerator
-      ->shouldReceive('route')
+      ->shouldReceive("route")
       ->with($acceptedRoute)
       ->once()
       ->andReturn($acceptedUrl);
     $this->config
-      ->shouldReceive('get')
-      ->with('paybox.customer_return_routes_names.refused')
+      ->shouldReceive("get")
+      ->with("paybox.customer_return_routes_names.refused")
       ->once()
       ->andReturn($refusedRoute);
     $this->urlGenerator
-      ->shouldReceive('route')
+      ->shouldReceive("route")
       ->with($refusedRoute)
       ->once()
       ->andReturn($refusedUrl);
     $this->config
-      ->shouldReceive('get')
-      ->with('paybox.customer_return_routes_names.aborted')
+      ->shouldReceive("get")
+      ->with("paybox.customer_return_routes_names.aborted")
       ->once()
       ->andReturn($abortedRoute);
     $this->urlGenerator
-      ->shouldReceive('route')
+      ->shouldReceive("route")
       ->with($abortedRoute)
       ->once()
       ->andReturn($abortedUrl);
     $this->config
-      ->shouldReceive('get')
-      ->with('paybox.customer_return_routes_names.waiting')
+      ->shouldReceive("get")
+      ->with("paybox.customer_return_routes_names.waiting")
       ->once()
       ->andReturn($waitingRoute);
     $this->urlGenerator
-      ->shouldReceive('route')
+      ->shouldReceive("route")
       ->with($waitingRoute)
       ->once()
       ->andReturn($waitingUrl);
 
     $this->config
-      ->shouldReceive('get')
-      ->with('paybox.transaction_verify_route_name')
+      ->shouldReceive("get")
+      ->with("paybox.transaction_verify_route_name")
       ->once()
       ->andReturn($transactionRoute);
     $this->urlGenerator
-      ->shouldReceive('route')
+      ->shouldReceive("route")
       ->with($transactionRoute)
       ->once()
       ->andReturn($transactionUrl);
 
     $this->hmacHashGenerator
-      ->shouldReceive('get')
+      ->shouldReceive("get")
       ->once()
       ->andReturn($sampleHmac);
 
     $parameters = $this->request->getParameters();
 
-    $this->assertSame($sampleSite, $parameters['PBX_SITE']);
-    $this->assertSame($sampleRank, $parameters['PBX_RANG']);
-    $this->assertSame($sampleId, $parameters['PBX_IDENTIFIANT']);
-    $this->assertSame(null, $parameters['PBX_TOTAL']);
-    $this->assertSame(Language::FRENCH, $parameters['PBX_LANGUE']);
-    $this->assertSame(null, $parameters['PBX_CMD']);
-    $this->assertSame('SHA512', $parameters['PBX_HASH']);
-    $this->assertSame(null, $parameters['PBX_PORTEUR']);
-    $this->assertSame('a:b;c:d;e:fg', $parameters['PBX_RETOUR']);
-    $this->assertArrayHasKey('PBX_TIME', $parameters);
-    $this->assertSame($acceptedUrl, $parameters['PBX_EFFECTUE']);
-    $this->assertSame($refusedUrl, $parameters['PBX_REFUSE']);
-    $this->assertSame($abortedUrl, $parameters['PBX_ANNULE']);
-    $this->assertSame($waitingUrl, $parameters['PBX_ATTENTE']);
-    $this->assertSame($transactionUrl, $parameters['PBX_REPONDRE_A']);
-    $this->assertSame($sampleHmac, $parameters['PBX_HMAC']);
+    $this->assertSame($sampleSite, $parameters["PBX_SITE"]);
+    $this->assertSame($sampleRank, $parameters["PBX_RANG"]);
+    $this->assertSame($sampleId, $parameters["PBX_IDENTIFIANT"]);
+    $this->assertSame(null, $parameters["PBX_TOTAL"]);
+    $this->assertSame(Language::FRENCH, $parameters["PBX_LANGUE"]);
+    $this->assertSame(null, $parameters["PBX_CMD"]);
+    $this->assertSame("SHA512", $parameters["PBX_HASH"]);
+    $this->assertSame(null, $parameters["PBX_PORTEUR"]);
+    $this->assertSame("a:b;c:d;e:fg", $parameters["PBX_RETOUR"]);
+    $this->assertArrayHasKey("PBX_TIME", $parameters);
+    $this->assertSame($acceptedUrl, $parameters["PBX_EFFECTUE"]);
+    $this->assertSame($refusedUrl, $parameters["PBX_REFUSE"]);
+    $this->assertSame($abortedUrl, $parameters["PBX_ANNULE"]);
+    $this->assertSame($waitingUrl, $parameters["PBX_ATTENTE"]);
+    $this->assertSame($transactionUrl, $parameters["PBX_REPONDRE_A"]);
+    $this->assertSame($sampleHmac, $parameters["PBX_HMAC"]);
   }
 
   /**
@@ -193,14 +193,14 @@ class AuthorizationTest extends UnitTestCase
   {
     $this->ignoreMissingMethods();
     $this->amountService
-      ->shouldReceive('get')
+      ->shouldReceive("get")
       ->with(100.22, false)
       ->once()
-      ->andReturn('sample');
+      ->andReturn("sample");
     $this->request->setAmount(100.22, Currency::CHF);
     $parameters = $this->request->getParameters();
-    $this->assertSame('sample', $parameters['PBX_TOTAL']);
-    $this->assertSame(Currency::CHF, $parameters['PBX_DEVISE']);
+    $this->assertSame("sample", $parameters["PBX_TOTAL"]);
+    $this->assertSame(Currency::CHF, $parameters["PBX_DEVISE"]);
   }
 
   /**
@@ -210,14 +210,14 @@ class AuthorizationTest extends UnitTestCase
   {
     $this->ignoreMissingMethods();
     $this->amountService
-      ->shouldReceive('get')
-      ->with('100,4567', false)
+      ->shouldReceive("get")
+      ->with("100,4567", false)
       ->once()
-      ->andReturn('sample2');
-    $this->request->setAmount('100,4567');
+      ->andReturn("sample2");
+    $this->request->setAmount("100,4567");
     $parameters = $this->request->getParameters();
-    $this->assertSame('sample2', $parameters['PBX_TOTAL']);
-    $this->assertSame(Currency::EUR, $parameters['PBX_DEVISE']);
+    $this->assertSame("sample2", $parameters["PBX_TOTAL"]);
+    $this->assertSame(Currency::EUR, $parameters["PBX_DEVISE"]);
   }
 
   /**
@@ -228,7 +228,7 @@ class AuthorizationTest extends UnitTestCase
     $this->ignoreMissingMethods();
     $this->request->setLanguage(Language::DUTCH);
     $parameters = $this->request->getParameters();
-    $this->assertSame(Language::DUTCH, $parameters['PBX_LANGUE']);
+    $this->assertSame(Language::DUTCH, $parameters["PBX_LANGUE"]);
   }
 
   /**
@@ -238,7 +238,7 @@ class AuthorizationTest extends UnitTestCase
   {
     $this->ignoreMissingMethods();
     $parameters = $this->request->getParameters();
-    $this->assertSame(Language::FRENCH, $parameters['PBX_LANGUE']);
+    $this->assertSame(Language::FRENCH, $parameters["PBX_LANGUE"]);
   }
 
   /**
@@ -247,9 +247,9 @@ class AuthorizationTest extends UnitTestCase
   public function testSetCustomerEmailItGetsValidCustomerEmailWhenSet()
   {
     $this->ignoreMissingMethods();
-    $this->request->setCustomerEmail('foo-bar@example.com');
+    $this->request->setCustomerEmail("foo-bar@example.com");
     $parameters = $this->request->getParameters();
-    $this->assertSame('foo-bar@example.com', $parameters['PBX_PORTEUR']);
+    $this->assertSame("foo-bar@example.com", $parameters["PBX_PORTEUR"]);
   }
 
   /**
@@ -261,7 +261,7 @@ class AuthorizationTest extends UnitTestCase
     $date = Carbon::now()->addDays(10);
     $this->request->setTime($date);
     $parameters = $this->request->getParameters();
-    $this->assertSame($date->format('c'), $parameters['PBX_TIME']);
+    $this->assertSame($date->format("c"), $parameters["PBX_TIME"]);
   }
 
   /**
@@ -273,7 +273,7 @@ class AuthorizationTest extends UnitTestCase
     $parameters = $this->request->getParameters();
     $now = Carbon::now();
     Carbon::setTestNow($now);
-    $this->assertSame($now->format('c'), $parameters['PBX_TIME']);
+    $this->assertSame($now->format("c"), $parameters["PBX_TIME"]);
   }
 
   /**
@@ -284,7 +284,7 @@ class AuthorizationTest extends UnitTestCase
     $this->ignoreMissingMethods();
     $this->request->setPaymentNumber(123);
     $parameters = $this->request->getParameters();
-    $this->assertSame(123, $parameters['PBX_CMD']);
+    $this->assertSame(123, $parameters["PBX_CMD"]);
   }
 
   /**
@@ -293,10 +293,10 @@ class AuthorizationTest extends UnitTestCase
   public function testSetReturnFieldsItGetsValidReturnFields()
   {
     $this->ignoreMissingMethods();
-    $fields = ['a' => 'b', 'c' => 'de', 'f' => 'g'];
+    $fields = ["a" => "b", "c" => "de", "f" => "g"];
     $this->request->setReturnFields($fields);
     $parameters = $this->request->getParameters();
-    $this->assertSame('a:b;c:de;f:g', $parameters['PBX_RETOUR']);
+    $this->assertSame("a:b;c:de;f:g", $parameters["PBX_RETOUR"]);
   }
 
   /**
@@ -305,10 +305,10 @@ class AuthorizationTest extends UnitTestCase
   public function testSetCustomerPaymentAcceptedUrlItGetsValidAcceptedUrl()
   {
     $this->ignoreMissingMethods();
-    $sampleUrl = 'https://example.com/accepted-url';
+    $sampleUrl = "https://example.com/accepted-url";
     $this->request->setCustomerPaymentAcceptedUrl($sampleUrl);
     $parameters = $this->request->getParameters();
-    $this->assertSame($sampleUrl, $parameters['PBX_EFFECTUE']);
+    $this->assertSame($sampleUrl, $parameters["PBX_EFFECTUE"]);
   }
 
   /**
@@ -317,10 +317,10 @@ class AuthorizationTest extends UnitTestCase
   public function setCustomerPaymentRefusedUrl_it_gets_valid_refused_url()
   {
     $this->ignoreMissingMethods();
-    $sampleUrl = 'https://example.com/refused-url';
+    $sampleUrl = "https://example.com/refused-url";
     $this->request->setCustomerPaymentRefusedUrl($sampleUrl);
     $parameters = $this->request->getParameters();
-    $this->assertSame($sampleUrl, $parameters['PBX_REFUSE']);
+    $this->assertSame($sampleUrl, $parameters["PBX_REFUSE"]);
   }
 
   /**
@@ -329,10 +329,10 @@ class AuthorizationTest extends UnitTestCase
   public function testSetCustomerPaymentAbortedUrlItGetsValidAbortedUrl()
   {
     $this->ignoreMissingMethods();
-    $sampleUrl = 'https://example.com/aborted-url';
+    $sampleUrl = "https://example.com/aborted-url";
     $this->request->setCustomerPaymentAbortedUrl($sampleUrl);
     $parameters = $this->request->getParameters();
-    $this->assertSame($sampleUrl, $parameters['PBX_ANNULE']);
+    $this->assertSame($sampleUrl, $parameters["PBX_ANNULE"]);
   }
 
   /**
@@ -341,10 +341,10 @@ class AuthorizationTest extends UnitTestCase
   public function testSetCustomerPaymentWaitingUrlItGetsValidWaitingUrl()
   {
     $this->ignoreMissingMethods();
-    $sampleUrl = 'https://example.com/waiting-url';
+    $sampleUrl = "https://example.com/waiting-url";
     $this->request->setCustomerPaymentWaitingUrl($sampleUrl);
     $parameters = $this->request->getParameters();
-    $this->assertSame($sampleUrl, $parameters['PBX_ATTENTE']);
+    $this->assertSame($sampleUrl, $parameters["PBX_ATTENTE"]);
   }
 
   /**
@@ -353,10 +353,10 @@ class AuthorizationTest extends UnitTestCase
   public function testSetTransactionVerifyUrlItgetsValidTransactionUrlWhenSet()
   {
     $this->ignoreMissingMethods();
-    $sampleUrl = 'https://example.com/transaction-url';
+    $sampleUrl = "https://example.com/transaction-url";
     $this->request->setTransactionVerifyUrl($sampleUrl);
     $parameters = $this->request->getParameters();
-    $this->assertSame($sampleUrl, $parameters['PBX_REPONDRE_A']);
+    $this->assertSame($sampleUrl, $parameters["PBX_REPONDRE_A"]);
   }
 
   /**
@@ -364,12 +364,12 @@ class AuthorizationTest extends UnitTestCase
    */
   public function testGetUrlItFiresServerSelectorOnce()
   {
-    $validUrl = 'https://sample.com/valid/server/url';
+    $validUrl = "https://sample.com/valid/server/url";
 
     $this->serverSelector
-      ->shouldReceive('find')
+      ->shouldReceive("find")
       ->once()
-      ->with('paybox')
+      ->with("paybox")
       ->andReturn($validUrl);
 
     $url = $this->request->getUrl();

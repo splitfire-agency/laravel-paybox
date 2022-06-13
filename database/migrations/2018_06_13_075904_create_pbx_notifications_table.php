@@ -13,22 +13,22 @@ class CreatePbxNotificationsTable extends Migration
    */
   public function up()
   {
-    Schema::create('pbx_notifications', function (Blueprint $table) {
-      $table->increments('id');
+    Schema::create("pbx_notifications", function (Blueprint $table) {
+      $table->increments("id");
       $table
-        ->string('numquestion', 10)
+        ->string("numquestion", 10)
         ->nullable()
         ->index();
-      $table->string('reference', 250)->nullable();
-      $table->longText('data');
+      $table->string("reference", 250)->nullable();
+      $table->longText("data");
       $table
-        ->string('status')
-        ->default('pending')
+        ->string("status")
+        ->default("pending")
         ->index();
-      $table->unsignedInteger('tries')->default(0);
-      $table->string('return_code', 3)->nullable();
-      $table->longText('return_content')->nullable();
-      $table->timestamp('notified_at')->nullable();
+      $table->unsignedInteger("tries")->default(0);
+      $table->string("return_code", 3)->nullable();
+      $table->longText("return_content")->nullable();
+      $table->timestamp("notified_at")->nullable();
       $table->timestamps();
     });
   }
@@ -40,6 +40,6 @@ class CreatePbxNotificationsTable extends Migration
    */
   public function down()
   {
-    Schema::drop('pbx_notifications');
+    Schema::drop("pbx_notifications");
   }
 }
