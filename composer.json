@@ -30,7 +30,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Sf\\Paybox\\Providers\\PayboxServiceProvider"
+        "Sf\\PayboxGateway\\Providers\\PayboxServiceProvider"
       ]
     }
   },
