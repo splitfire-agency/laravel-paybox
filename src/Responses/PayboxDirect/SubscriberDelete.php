@@ -1,8 +1,7 @@
 <?php
 
-namespace Bnb\PayboxGateway\Responses\PayboxDirect;
+namespace Sf\PayboxGateway\Responses\PayboxDirect;
 
 class SubscriberDelete extends SubscriberTransactionResponse
 {
-
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Bnb\PayboxGateway\Models;
+namespace Sf\PayboxGateway\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -29,35 +29,33 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon updated_at
  * @property Wallet wallet
  *
- * @package Bnb\PayboxGateway\Models
+ * @package Sf\PayboxGateway\Models
  */
 class Response extends Model
 {
+  protected $table = "pbx_responses";
 
-    protected $table = 'ppps_responses';
+  protected $fillable = [
+    "numquestion",
+    "site",
+    "rang",
+    "codereponse",
+    "numappel",
+    "numtrans",
+    "autorisation",
+    "remise",
+    "typecarte",
+    "pays",
+    "porteur",
+    "refabonne",
+    "commentaire",
+    "status",
+    "sha",
+    "wallet_id",
+  ];
 
-    protected $fillable = [
-        'numquestion',
-        'site',
-        'rang',
-        'codereponse',
-        'numappel',
-        'numtrans',
-        'autorisation',
-        'remise',
-        'typecarte',
-        'pays',
-        'porteur',
-        'refabonne',
-        'commentaire',
-        'status',
-        'sha',
-        'wallet_id',
-    ];
-
-
-    public function wallet()
-    {
-        return $this->belongsTo(Wallet::class, 'wallet_id', 'id');
-    }
+  public function wallet()
+  {
+    return $this->belongsTo(Wallet::class, "wallet_id", "id");
+  }
 }

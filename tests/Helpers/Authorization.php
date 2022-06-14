@@ -2,50 +2,83 @@
 
 namespace Tests\Helpers;
 
-use Bnb\PayboxGateway\Requests\Paybox\AuthorizationWithCapture;
-use Bnb\PayboxGateway\Services\Amount;
-use Bnb\PayboxGateway\Services\HmacHashGenerator;
-use Bnb\PayboxGateway\Services\ServerSelector;
+use Sf\PayboxGateway\Requests\Paybox\AuthorizationWithCapture;
+use Sf\PayboxGateway\Requests\Request;
+use Sf\PayboxGateway\Services\Amount;
+use Sf\PayboxGateway\Services\HmacHashGenerator;
+use Sf\PayboxGateway\Services\ServerSelector;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Routing\UrlGenerator;
-use Illuminate\Contracts\View\Factory as ViewFactory;
-use Mockery as m;
+use Mockery;
+use Mockery\LegacyMockInterface;
+use Mockery\MockInterface;
 
+/**
+ * Trait Authorization
+ * @package Tests\Helpers
+ */
 trait Authorization
 {
-    protected $serverSelector;
-    protected $config;
-    protected $hmacHashGenerator;
-    protected $urlGenerator;
-    protected $view;
-    protected $request;
-    protected $amountService;
+  /**
+   * @var ServerSelector|LegacyMockInterface|MockInterface
+   */
+  protected ServerSelector $serverSelector;
 
-    protected function setUpMocks($class = AuthorizationWithCapture::class)
-    {
-        $this->serverSelector = m::mock(ServerSelector::class);
-        $this->config = m::mock(Config::class);
-        $this->hmacHashGenerator = m::mock(HmacHashGenerator::class);
-        $this->urlGenerator = m::mock(UrlGenerator::class);
-        $this->view = m::mock(ViewFactory::class);
-        $this->amountService = m::mock(Amount::class);
-        $this->request = m::mock($class,
-            [
-                $this->serverSelector,
-                $this->config,
-                $this->hmacHashGenerator,
-                $this->urlGenerator,
-                $this->view,
-                $this->amountService,
-            ])->makePartial()
-            ->shouldAllowMockingProtectedMethods();
-    }
+  /**
+   * @var Config|LegacyMockInterface|MockInterface
+   */
+  protected Config $config;
 
-    protected function ignoreMissingMethods()
-    {
-        $this->config->shouldIgnoreMissing();
-        $this->urlGenerator->shouldIgnoreMissing();
-        $this->hmacHashGenerator->shouldIgnoreMissing();
-        $this->amountService->shouldIgnoreMissing();
-    }
+  /**
+   * @var HmacHashGenerator|LegacyMockInterface|MockInterface
+   */
+  protected HmacHashGenerator $hmacHashGenerator;
+
+  /**
+   * @var UrlGenerator|LegacyMockInterface|MockInterface
+   */
+  protected UrlGenerator $urlGenerator;
+
+  /**
+   * @var Request|Mockery\Mock
+   */
+  protected $request;
+
+  /**
+   * @var Amount|LegacyMockInterface|MockInterface
+   */
+  protected Amount $amountService;
+
+  /**
+   * Set up mocks
+   * @param string $class Request class
+   */
+  protected function setUpMocks($class = AuthorizationWithCapture::class)
+  {
+    $this->serverSelector = Mockery::mock(ServerSelector::class);
+    $this->config = Mockery::mock(Config::class);
+    $this->hmacHashGenerator = Mockery::mock(HmacHashGenerator::class);
+    $this->urlGenerator = Mockery::mock(UrlGenerator::class);
+    $this->amountService = Mockery::mock(Amount::class);
+    $this->request = Mockery::mock($class, [
+      $this->serverSelector,
+      $this->config,
+      $this->hmacHashGenerator,
+      $this->urlGenerator,
+      $this->amountService,
+    ])
+      ->makePartial()
+      ->shouldAllowMockingProtectedMethods();
+  }
+
+  /**
+   * Should ignore missing methods
+   */
+  protected function ignoreMissingMethods()
+  {
+    $this->config->shouldIgnoreMissing();
+    $this->urlGenerator->shouldIgnoreMissing();
+    $this->hmacHashGenerator->shouldIgnoreMissing();
+    $this->amountService->shouldIgnoreMissing();
+  }
 }

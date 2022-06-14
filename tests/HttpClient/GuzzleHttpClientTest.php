@@ -2,32 +2,47 @@
 
 namespace Tests\HttpClient;
 
-use Bnb\PayboxGateway\HttpClient\GuzzleHttpClient;
+use Sf\PayboxGateway\HttpClient\GuzzleHttpClient;
 use GuzzleHttp\Client;
-use stdClass;
+use Psr\Http\Message\ResponseInterface;
 use Tests\UnitTestCase;
-use Mockery as m;
+use Mockery;
 
+/**
+ * Class GuzzleHttpClientTest
+ * @package Tests\HttpClient
+ * @group GuzzleHttpClientTest
+ */
 class GuzzleHttpClientTest extends UnitTestCase
 {
-    /** @test */
-    public function it_runs_valid_request()
-    {
-        $client = m::mock(Client::class);
-        $response = m::mock(stdClass::class);
-        $url = 'http://example.com';
-        $parameters = ['a' => 'b', 'c' => 'd'];
-        $responseBody = 'foo=bar&baz=foo';
+  /**
+   * Check if guzzle make valid requests
+   */
+  public function testRunsValidRequest()
+  {
+    $client = Mockery::mock(Client::class);
+    $response = Mockery::mock(ResponseInterface::class);
+    $url = "http://example.com";
+    $parameters = ["a" => "b", "c" => "d"];
+    $responseBody = "foo=bar&baz=foo";
 
-        $guzzleClient = m::mock(GuzzleHttpClient::class, [$client])->makePartial();
+    $guzzleClient = Mockery::mock(GuzzleHttpClient::class, [
+      $client,
+    ])->makePartial();
 
-        $client->shouldReceive('request')->with('POST', $url, ['form_params' => $parameters])
-            ->once()->andReturn($response);
+    $client
+      ->shouldReceive("request")
+      ->with("POST", $url, ["form_params" => $parameters])
+      ->once()
+      ->andReturn($response);
 
-        $response->shouldReceive('getBody')->once()->andReturn($responseBody);
+    $response
+      ->shouldReceive("getBody")
+      ->once()
+      ->andReturn($responseBody);
 
-        $response = $guzzleClient->request($url, $parameters);
+    $response = $guzzleClient->request($url, $parameters);
 
-        $this->assertSame($responseBody, $response);
-    }
+    $this->assertSame($responseBody, $response);
+  }
 }

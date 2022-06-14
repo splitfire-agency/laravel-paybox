@@ -1,17 +1,17 @@
 <?php
 
-namespace Bnb\PayboxGateway\Requests\Paybox;
+namespace Sf\PayboxGateway\Requests\Paybox;
 
 class AuthorizationWithoutCapture extends Authorization
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getBasicParameters()
-    {
-        $parameters = parent::getBasicParameters();
-        $parameters['PBX_AUTOSEULE'] = 'O';
+  /**
+   * {@inheritdoc}
+   */
+  public function getBasicParameters()
+  {
+    $parameters = parent::getBasicParameters();
+    $parameters["PBX_AUTOSEULE"] = "O";
 
-        return $parameters;
-    }
+    return $parameters;
+  }
 }

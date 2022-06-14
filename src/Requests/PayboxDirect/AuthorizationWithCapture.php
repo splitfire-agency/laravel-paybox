@@ -1,27 +1,25 @@
 <?php
 
-namespace Bnb\PayboxGateway\Requests\PayboxDirect;
+namespace Sf\PayboxGateway\Requests\PayboxDirect;
 
-use Bnb\PayboxGateway\QuestionTypeCode;
-use Bnb\PayboxGateway\Responses\PayboxDirect\AuthorizationWithCapture as AuthorizationWithCaptureResponse;
+use Sf\PayboxGateway\QuestionTypeCode;
+use Sf\PayboxGateway\Responses\PayboxDirect\AuthorizationWithCapture as AuthorizationWithCaptureResponse;
 
 class AuthorizationWithCapture extends Authorization
 {
+  /**
+   * @inheritdoc
+   */
+  public function getQuestionType()
+  {
+    return QuestionTypeCode::AUTHORIZATION_WITH_CAPTURE;
+  }
 
-    /**
-     * @inheritdoc
-     */
-    public function getQuestionType()
-    {
-        return QuestionTypeCode::AUTHORIZATION_WITH_CAPTURE;
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function getResponseClass()
-    {
-        return AuthorizationWithCaptureResponse::class;
-    }
+  /**
+   * @inheritdoc
+   */
+  public function getResponseClass()
+  {
+    return AuthorizationWithCaptureResponse::class;
+  }
 }

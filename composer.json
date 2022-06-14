@@ -1,15 +1,17 @@
 {
-  "name": "bnbwebexpertise/laravel-paybox-gateway",
-  "description": "Laravel Paybox gateway",
+  "name": "splitfire-agency/laravel-paybox",
+  "description": "Laravel 9 Paybox",
+  "type": "library",
   "require": {
-    "php": ">=5.5",
-    "laravel/framework": ">=5.5",
-    "lib-openssl": "*",
+    "php": ">=8.0",
+    "laravel/framework": "^8.0|^9.0",
+    "ext-openssl": "*",
+    "ext-dom": "*",
     "guzzlehttp/guzzle": ">=5.3"
   },
   "autoload": {
     "psr-4": {
-      "Bnb\\PayboxGateway\\": "src/"
+      "Sf\\PayboxGateway\\": "src/"
     }
   },
   "autoload-dev": {
@@ -17,21 +19,22 @@
       "Tests\\": "tests"
     }
   },
-  "license": "MIT",  
+  "license": "MIT",
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require-dev": {
-    "phpunit/phpunit": "^5.4",
-    "mockery/mockery": "^0.9.5"
+    "phpunit/phpunit": "^9.5.20",
+    "mockery/mockery": "^1.4.0",
+    "orchestra/testbench": "^7.5"
   },
   "extra": {
-    "branch-alias": {
-      "dev-master": "1.x-dev"
-    },
     "laravel": {
       "providers": [
-        "Bnb\\PayboxGateway\\Providers\\PayboxServiceProvider"
+        "Sf\\Paybox\\Providers\\PayboxServiceProvider"
       ]
     }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
   }
 }

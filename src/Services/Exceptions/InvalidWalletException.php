@@ -1,12 +1,11 @@
 <?php
 
-namespace Bnb\PayboxGateway\Services\Exceptions;
+namespace Sf\PayboxGateway\Services\Exceptions;
 
 class InvalidWalletException extends \Exception
 {
-
-    public function __construct()
-    {
-        parent::__construct(trans('paybox::exceptions.invalid_wallet_exception'));
-    }
+  public function __construct()
+  {
+    parent::__construct(trans("paybox::exceptions.invalid_wallet_exception"));
+  }
 }

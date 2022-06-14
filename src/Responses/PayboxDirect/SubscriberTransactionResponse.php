@@ -1,21 +1,18 @@
 <?php
 
-namespace Bnb\PayboxGateway\Responses\PayboxDirect;
+namespace Sf\PayboxGateway\Responses\PayboxDirect;
 
-use Bnb\PayboxGateway\DirectResponseField;
+use Sf\PayboxGateway\DirectResponseField;
 
 abstract class SubscriberTransactionResponse extends TransactionResponse
 {
+  public function getSubscriberReference()
+  {
+    return $this->getField(DirectResponseField::SUBSCRIBER_REFERENCE);
+  }
 
-    public function getSubscriberReference()
-    {
-        return $this->getField(DirectResponseField::SUBSCRIBER_REFERENCE);
-    }
-
-
-    public function getSubscriberWallet()
-    {
-        return $this->getField(DirectResponseField::SUBSCRIBER_WALLET);
-    }
-
+  public function getSubscriberWallet()
+  {
+    return $this->getField(DirectResponseField::SUBSCRIBER_WALLET);
+  }
 }
