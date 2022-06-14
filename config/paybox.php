@@ -4,87 +4,86 @@ return [
   /*
    * Whether test environment is enabled
    */
-  'test' => env('PAYBOX_TEST', false),
+  "test" => env("PAYBOX_TEST", false),
 
   /*
    * 00103: Paybox Direct
    * 00104: Paybox Direct Plus
    */
-  'direct_version' => env('PAYBOX_DIRECT_VERSION', '00104'),
+  "direct_version" => env("PAYBOX_DIRECT_VERSION", "00104"),
 
   /*
    * Site number (provided by Paybox)
    */
-  'site' => env('PAYBOX_SITE', ''),
+  "site" => env("PAYBOX_SITE", ""),
 
   /*
    * Rank number (provided by Paybox)
    */
-  'rank' => env('PAYBOX_RANK', ''),
+  "rank" => env("PAYBOX_RANK", ""),
 
   /*
    * Internal identifier (provided by Paybox)
    */
-  'id' => env('PAYBOX_ID', ''),
+  "id" => env("PAYBOX_ID", ""),
 
   /*
    * HMAC authentication key - it should be generated in Paybox merchant panel
    */
-  'back_office_password' => env('PAYBOX_BACK_OFFICE_PASSWORD', ''),
+  "back_office_password" => env("PAYBOX_BACK_OFFICE_PASSWORD", ""),
 
   /*
    * HMAC authentication key - it should be generated in Paybox merchant panel
    */
-  'hmac_key' => env('PAYBOX_HMAC_KEY', ''),
+  "hmac_key" => env("PAYBOX_HMAC_KEY", ""),
 
   /*
    * Paybox public key location - you can get it from
    * http://www1.paybox.com/wp-content/uploads/2014/03/pubkey.pem
    */
-  'public_key' => storage_path('paybox/pubkey.pem'),
+  "public_key" => storage_path("paybox/pubkey.pem"),
 
   /*
    * Application Prefix for REFABONNE field.
    * Prepended to wallet_id
    */
-  'wallet_prefix' => env('PAYBOX_WALLET_PREFIX', 'WALLET_'),
+  "wallet_prefix" => env("PAYBOX_WALLET_PREFIX", "WALLET_"),
 
   /*
    * Default return fields when going back from Paybox. You can change here keys as you want,
    * you can add also more values from ResponseField class
    */
-  'return_fields' => [
-    'amount' => \Bnb\PayboxGateway\ResponseField::AMOUNT,
-    'authorization_number' =>
-      \Bnb\PayboxGateway\ResponseField::AUTHORIZATION_NUMBER,
-    'order_number' => \Bnb\PayboxGateway\ResponseField::ORDER_NUMBER,
-    'response_code' => \Bnb\PayboxGateway\ResponseField::RESPONSE_CODE,
-    'payment_type' => \Bnb\PayboxGateway\ResponseField::PAYMENT_TYPE,
-    'call_number' => \Bnb\PayboxGateway\ResponseField::PAYBOX_CALL_NUMBER,
-    'transaction_number' =>
-      \Bnb\PayboxGateway\ResponseField::TRANSACTION_NUMBER,
+  "return_fields" => [
+    "amount" => \Sf\PayboxGateway\ResponseField::AMOUNT,
+    "authorization_number" =>
+      \Sf\PayboxGateway\ResponseField::AUTHORIZATION_NUMBER,
+    "order_number" => \Sf\PayboxGateway\ResponseField::ORDER_NUMBER,
+    "response_code" => \Sf\PayboxGateway\ResponseField::RESPONSE_CODE,
+    "payment_type" => \Sf\PayboxGateway\ResponseField::PAYMENT_TYPE,
+    "call_number" => \Sf\PayboxGateway\ResponseField::PAYBOX_CALL_NUMBER,
+    "transaction_number" => \Sf\PayboxGateway\ResponseField::TRANSACTION_NUMBER,
     // signature should be always last return field
-    'signature' => \Bnb\PayboxGateway\ResponseField::SIGNATURE,
+    "signature" => \Sf\PayboxGateway\ResponseField::SIGNATURE,
   ],
 
   /*
    * Notifications settings for server-to-server communication about Paybox Direct payments status
    */
-  'notifications' => [
-    'enabled' => filter_var(
-      env('PAYBOX_NOTIFICATIONS_ENABLED', true),
+  "notifications" => [
+    "enabled" => filter_var(
+      env("PAYBOX_NOTIFICATIONS_ENABLED", true),
       FILTER_VALIDATE_BOOLEAN
     ),
-    'queue' => [
-      'connection' => env('PAYBOX_NOTIFICATIONS_QUEUE_CONNECTION'),
-      'queue' => env('PAYBOX_NOTIFICATIONS_QUEUE_NAME'),
+    "queue" => [
+      "connection" => env("PAYBOX_NOTIFICATIONS_QUEUE_CONNECTION"),
+      "queue" => env("PAYBOX_NOTIFICATIONS_QUEUE_NAME"),
     ],
-    'retry_after' => (int) env('PAYBOX_NOTIFICATIONS_RETRY_AFTER', 60),
-    'url' => env('PAYBOX_NOTIFICATIONS_URL'),
-    'notify_to' => env('PAYBOX_NOTIFICATIONS_NOTIFY_TO'),
-    'notify_from' => [
-      'address' => env('PAYBOX_NOTIFICATIONS_NOTIFY_FROM_ADDRESS'),
-      'name' => env('PAYBOX_NOTIFICATIONS_NOTIFY_FROM_NAME'),
+    "retry_after" => (int) env("PAYBOX_NOTIFICATIONS_RETRY_AFTER", 60),
+    "url" => env("PAYBOX_NOTIFICATIONS_URL"),
+    "notify_to" => env("PAYBOX_NOTIFICATIONS_NOTIFY_TO"),
+    "notify_from" => [
+      "address" => env("PAYBOX_NOTIFICATIONS_NOTIFY_FROM_ADDRESS"),
+      "name" => env("PAYBOX_NOTIFICATIONS_NOTIFY_FROM_NAME"),
     ],
   ],
 
@@ -94,11 +93,11 @@ return [
    * authorization data. You shouldn't change keys here. Those urls will be later launched using
    * GET HTTP request
    */
-  'customer_return_routes_names' => [
-    'accepted' => 'paybox.accepted',
-    'refused' => 'paybox.refused',
-    'aborted' => 'paybox.aborted',
-    'waiting' => 'paybox.waiting',
+  "customer_return_routes_names" => [
+    "accepted" => "paybox.accepted",
+    "refused" => "paybox.refused",
+    "aborted" => "paybox.aborted",
+    "waiting" => "paybox.waiting",
   ],
 
   /*
@@ -108,43 +107,43 @@ return [
    * dynamically when creating authorization data. This url will be later launched using GET HTTP
    * request
    */
-  'transaction_verify_route_name' => 'paybox.process',
+  "transaction_verify_route_name" => "paybox.process",
 
   /*
    * Access urls for Paybox for production environment
    */
-  'production_urls' => [
+  "production_urls" => [
     /*
      * Paybox System urls
      */
-    'paybox' => [
-      'https://tpeweb.e-transactions.fr/cgi/MYchoix_pagepaiement.cgi',
-      'https://tpeweb1.e-transactions.fr/cgi/MYchoix_pagepaiement.cgi',
+    "paybox" => [
+      "https://tpeweb.e-transactions.fr/cgi/MYchoix_pagepaiement.cgi",
+      "https://tpeweb1.e-transactions.fr/cgi/MYchoix_pagepaiement.cgi",
     ],
 
     /*
      * Paybox Direct urls
      */
-    'paybox_direct' => [
-      'https://ppps.e-transactions.fr/PPPS.php',
-      'https://ppps1.e-transactions.fr/PPPS.php',
+    "paybox_direct" => [
+      "https://ppps.e-transactions.fr/PPPS.php",
+      "https://ppps1.e-transactions.fr/PPPS.php",
     ],
   ],
 
   /*
    * Access urls for Paybox for test environment
    */
-  'test_urls' => [
+  "test_urls" => [
     /*
      * Paybox System urls
      */
-    'paybox' => [
-      'https://preprod-tpeweb.e-transactions.fr/cgi/MYchoix_pagepaiement.cgi',
+    "paybox" => [
+      "https://preprod-tpeweb.e-transactions.fr/cgi/MYchoix_pagepaiement.cgi",
     ],
 
     /*
      * Paybox Direct urls
      */
-    'paybox_direct' => ['https://preprod-ppps.e-transactions.fr/PPPS.php'],
+    "paybox_direct" => ["https://preprod-ppps.e-transactions.fr/PPPS.php"],
   ],
 ];

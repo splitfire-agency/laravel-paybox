@@ -19,10 +19,10 @@ class CaptureTest extends UnitTestCase
    */
   public function testGetFieldsItGetsValidFields()
   {
-    $frenchMessage = 'Transaction non trouvé';
+    $frenchMessage = "Transaction non trouvé";
 
     $responseBody =
-      'foo=bar&a=b&c=d&message=' . iconv('UTF-8', 'ISO-8859-1', $frenchMessage);
+      "foo=bar&a=b&c=d&message=" . iconv("UTF-8", "ISO-8859-1", $frenchMessage);
 
     $response = Mockery::mock(Capture::class, [$responseBody])->makePartial();
 
@@ -30,10 +30,10 @@ class CaptureTest extends UnitTestCase
     $fields = $response->getFields();
     $this->assertEquals(
       [
-        'foo' => 'bar',
-        'a' => 'b',
-        'c' => 'd',
-        'message' => $frenchMessage,
+        "foo" => "bar",
+        "a" => "b",
+        "c" => "d",
+        "message" => $frenchMessage,
       ],
       $fields
     );
@@ -45,7 +45,7 @@ class CaptureTest extends UnitTestCase
   public function testIsSuccessItReturnsTrueWhenSuccess()
   {
     $responseBody =
-      'foo=bar&a=b&c=d&CODEREPONSE=' . DirectResponseCode::SUCCESS;
+      "foo=bar&a=b&c=d&CODEREPONSE=" . DirectResponseCode::SUCCESS;
     $response = Mockery::mock(Capture::class, [$responseBody])->makePartial();
     /** @var Capture $response */
     $this->assertTrue($response->isSuccess());
@@ -57,7 +57,7 @@ class CaptureTest extends UnitTestCase
   public function testIsSuccessItReturnsFalseWhenFail()
   {
     $responseBody =
-      'foo=bar&a=b&c=d&CODEREPONSE=' . DirectResponseCode::CONNECTION_FAILED;
+      "foo=bar&a=b&c=d&CODEREPONSE=" . DirectResponseCode::CONNECTION_FAILED;
     $response = Mockery::mock(Capture::class, [$responseBody])->makePartial();
     /** @var Capture $response */
     $this->assertFalse($response->isSuccess());
@@ -69,7 +69,7 @@ class CaptureTest extends UnitTestCase
   public function testShouldBeRepeatedItReturnsFalseWhenSuccess()
   {
     $responseBody =
-      'foo=bar&a=b&c=d&CODEREPONSE=' . DirectResponseCode::SUCCESS;
+      "foo=bar&a=b&c=d&CODEREPONSE=" . DirectResponseCode::SUCCESS;
     $response = Mockery::mock(Capture::class, [$responseBody])->makePartial();
     /** @var Capture $response */
     $this->assertFalse($response->shouldBeRepeated());
@@ -81,11 +81,8 @@ class CaptureTest extends UnitTestCase
   public function testShouldBeRepeatedItReturnsFalseWhenOtherError()
   {
     $responseBody =
-      'foo=bar&a=b&c=d&CODEREPONSE=' . DirectResponseCode::INCOHERENCE_ERROR;
-    $response = Mockery::mock(
-      Capture::class,
-      [$responseBody]
-    )->makePartial();
+      "foo=bar&a=b&c=d&CODEREPONSE=" . DirectResponseCode::INCOHERENCE_ERROR;
+    $response = Mockery::mock(Capture::class, [$responseBody])->makePartial();
     /** @var Capture $response */
     $this->assertFalse($response->shouldBeRepeated());
   }
@@ -96,7 +93,7 @@ class CaptureTest extends UnitTestCase
   public function testShouldBeRepeatedItReturnsTrueWhenConnectionFailed()
   {
     $responseBody =
-      'foo=bar&a=b&c=d&CODEREPONSE=' . DirectResponseCode::CONNECTION_FAILED;
+      "foo=bar&a=b&c=d&CODEREPONSE=" . DirectResponseCode::CONNECTION_FAILED;
     $response = Mockery::mock(Capture::class, [$responseBody])->makePartial();
     /** @var Capture $response */
     $this->assertTrue($response->shouldBeRepeated());
@@ -108,7 +105,7 @@ class CaptureTest extends UnitTestCase
   public function shouldBeRepeatedItReturnsTrueWhenTimeout()
   {
     $responseBody =
-      'foo=bar&a=b&c=d&CODEREPONSE=' . DirectResponseCode::TIMEOUT;
+      "foo=bar&a=b&c=d&CODEREPONSE=" . DirectResponseCode::TIMEOUT;
     $response = Mockery::mock(Capture::class, [$responseBody])->makePartial();
     /** @var Capture $response */
     $this->assertTrue($response->shouldBeRepeated());
@@ -120,7 +117,7 @@ class CaptureTest extends UnitTestCase
   public function shouldBeRepeatedItReturnsTrueWhenInternalTimeout()
   {
     $responseBody =
-      'foo=bar&a=b&c=d&CODEREPONSE=' . DirectResponseCode::INTERNAL_TIMEOUT;
+      "foo=bar&a=b&c=d&CODEREPONSE=" . DirectResponseCode::INTERNAL_TIMEOUT;
     $response = Mockery::mock(Capture::class, [$responseBody])->makePartial();
     /** @var Capture $response */
     $this->assertTrue($response->shouldBeRepeated());
@@ -132,7 +129,7 @@ class CaptureTest extends UnitTestCase
   public function testGetResponseCodeItReturnsValidResponseCode()
   {
     $responseBody =
-      'foo=bar&a=b&c=d&CODEREPONSE=' . DirectResponseCode::INCOHERENCE_ERROR;
+      "foo=bar&a=b&c=d&CODEREPONSE=" . DirectResponseCode::INCOHERENCE_ERROR;
     $response = Mockery::mock(Capture::class, [$responseBody])->makePartial();
     /** @var Capture $response */
     $this->assertSame(

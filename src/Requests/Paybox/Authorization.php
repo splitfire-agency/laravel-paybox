@@ -17,7 +17,7 @@ abstract class Authorization extends Request
   /**
    * {@inheritdoc}
    */
-  protected $type = 'paybox';
+  protected $type = "paybox";
 
   /**
    * Interface language.
@@ -106,7 +106,7 @@ abstract class Authorization extends Request
   {
     $params = $this->getBasicParameters();
 
-    $params['PBX_HMAC'] = $this->hmacHashGenerator->get($params);
+    $params["PBX_HMAC"] = $this->hmacHashGenerator->get($params);
 
     return $params;
   }
@@ -119,34 +119,34 @@ abstract class Authorization extends Request
   protected function getBasicParameters()
   {
     return [
-      'PBX_SITE' => $this->config->get('paybox.site'),
-      'PBX_RANG' => $this->config->get('paybox.rank'),
-      'PBX_IDENTIFIANT' => $this->config->get('paybox.id'),
-      'PBX_TOTAL' => $this->amount,
-      'PBX_DEVISE' => $this->currencyCode,
-      'PBX_LANGUE' => $this->language,
-      'PBX_CMD' => $this->paymentNumber,
-      'PBX_HASH' => 'SHA512',
-      'PBX_PORTEUR' => $this->customerEmail,
-      'PBX_RETOUR' => $this->getFormattedReturnFields(),
-      'PBX_TIME' => $this->getFormattedDate($this->time ?: Carbon::now()),
-      'PBX_EFFECTUE' => $this->getCustomerUrl(
-        'customerPaymentAcceptedUrl',
-        'accepted'
+      "PBX_SITE" => $this->config->get("paybox.site"),
+      "PBX_RANG" => $this->config->get("paybox.rank"),
+      "PBX_IDENTIFIANT" => $this->config->get("paybox.id"),
+      "PBX_TOTAL" => $this->amount,
+      "PBX_DEVISE" => $this->currencyCode,
+      "PBX_LANGUE" => $this->language,
+      "PBX_CMD" => $this->paymentNumber,
+      "PBX_HASH" => "SHA512",
+      "PBX_PORTEUR" => $this->customerEmail,
+      "PBX_RETOUR" => $this->getFormattedReturnFields(),
+      "PBX_TIME" => $this->getFormattedDate($this->time ?: Carbon::now()),
+      "PBX_EFFECTUE" => $this->getCustomerUrl(
+        "customerPaymentAcceptedUrl",
+        "accepted"
       ),
-      'PBX_REFUSE' => $this->getCustomerUrl(
-        'customerPaymentRefusedUrl',
-        'refused'
+      "PBX_REFUSE" => $this->getCustomerUrl(
+        "customerPaymentRefusedUrl",
+        "refused"
       ),
-      'PBX_ANNULE' => $this->getCustomerUrl(
-        'customerPaymentAbortedUrl',
-        'aborted'
+      "PBX_ANNULE" => $this->getCustomerUrl(
+        "customerPaymentAbortedUrl",
+        "aborted"
       ),
-      'PBX_ATTENTE' => $this->getCustomerUrl(
-        'customerPaymentWaitingUrl',
-        'waiting'
+      "PBX_ATTENTE" => $this->getCustomerUrl(
+        "customerPaymentWaitingUrl",
+        "waiting"
       ),
-      'PBX_REPONDRE_A' => $this->getTransactionUrl(),
+      "PBX_REPONDRE_A" => $this->getTransactionUrl(),
     ];
   }
 
@@ -187,7 +187,7 @@ abstract class Authorization extends Request
    */
   protected function getFormattedDate(Carbon $date)
   {
-    return $date->format('c');
+    return $date->format("c");
   }
 
   /**
@@ -213,13 +213,13 @@ abstract class Authorization extends Request
   {
     $returnFields =
       (array) ($this->returnFields ?:
-      $this->config->get('paybox.return_fields'));
+      $this->config->get("paybox.return_fields"));
 
     return collect($returnFields)
       ->map(function ($value, $key) {
-        return $key . ':' . $value;
+        return $key . ":" . $value;
       })
-      ->implode(';');
+      ->implode(";");
   }
 
   /**
@@ -304,7 +304,7 @@ abstract class Authorization extends Request
   {
     return $this->$variableName ?:
       $this->urlGenerator->route(
-        $this->config->get('paybox.customer_return_routes_names.' . $configKey)
+        $this->config->get("paybox.customer_return_routes_names." . $configKey)
       );
   }
 
@@ -317,7 +317,7 @@ abstract class Authorization extends Request
   {
     return $this->transactionVerifyUrl ?:
       $this->urlGenerator->route(
-        $this->config->get('paybox.transaction_verify_route_name')
+        $this->config->get("paybox.transaction_verify_route_name")
       );
   }
 }

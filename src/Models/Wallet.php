@@ -20,15 +20,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Wallet extends Model
 {
-  protected $table = 'ppps_wallets';
+  protected $table = "pbx_wallets";
 
-  protected $dates = ['card_expiration_date'];
+  protected $dates = ["card_expiration_date"];
 
   protected $fillable = [
-    'paybox_id',
-    'subscriber_id',
-    'card_number',
-    'card_expiration_date',
+    "paybox_id",
+    "subscriber_id",
+    "card_number",
+    "card_expiration_date",
   ];
 
   /**
@@ -36,7 +36,7 @@ class Wallet extends Model
    */
   public function setCardNumberAttribute($value)
   {
-    $this->attributes['card_number'] = Question::maskCardNumber($value);
+    $this->attributes["card_number"] = Question::maskCardNumber($value);
   }
 
   /**

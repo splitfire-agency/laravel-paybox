@@ -10,7 +10,7 @@ class AuthorizationWithCapture extends Authorization
   public function getBasicParameters()
   {
     $parameters = parent::getBasicParameters();
-    $parameters['PBX_AUTOSEULE'] = 'N';
+    $parameters["PBX_AUTOSEULE"] = "N";
 
     return $parameters;
   }

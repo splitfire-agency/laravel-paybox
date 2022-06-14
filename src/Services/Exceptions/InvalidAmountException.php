@@ -7,7 +7,7 @@ class InvalidAmountException extends \Exception
   public function __construct()
   {
     parent::__construct(
-      trans('paybox::exception.invalid_amount_exception'),
+      trans("paybox::exception.invalid_amount_exception"),
       13
     );
   }

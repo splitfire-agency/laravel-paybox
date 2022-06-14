@@ -38,14 +38,14 @@ class ServerSelector
 
     foreach ($servers as $key => $server) {
       $doc = $this->getDocumentLoader();
-      $doc->loadHTMLFile('https://' . $server . '/load.html');
-      $element = $doc->getElementById('server_status');
-      if ($element && $element->textContent == 'OK') {
+      $doc->loadHTMLFile("https://" . $server . "/load.html");
+      $element = $doc->getElementById("server_status");
+      if ($element && $element->textContent == "OK") {
         return $urls[$key];
       }
     }
 
-    throw new Exception('No servers set or all servers are down');
+    throw new Exception("No servers set or all servers are down");
   }
 
   public function findFrom($sourceType, $targetType, $sourceUrl, $other)
@@ -86,11 +86,11 @@ class ServerSelector
 
     foreach ($urls as $url) {
       $result = parse_url($url);
-      if ($result === false || !array_key_exists('host', $result)) {
+      if ($result === false || !array_key_exists("host", $result)) {
         throw new Exception("Url {$url} is invalid");
       }
 
-      $servers[] = $result['host'];
+      $servers[] = $result["host"];
     }
 
     return $servers;
@@ -105,9 +105,9 @@ class ServerSelector
    */
   protected function getUrls($type)
   {
-    $prefix = $this->config->get('paybox.test') ? 'test' : 'production';
+    $prefix = $this->config->get("paybox.test") ? "test" : "production";
 
-    return (array) $this->config->get('paybox.' . $prefix . '_urls.' . $type);
+    return (array) $this->config->get("paybox." . $prefix . "_urls." . $type);
   }
 
   /**

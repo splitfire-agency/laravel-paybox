@@ -56,7 +56,9 @@ class Capture extends DirectRequest
   public function getBasicParameters()
   {
     return [
-      DirectQuestionField::KEY => $this->config->get('paybox.back_office_password'),
+      DirectQuestionField::KEY => $this->config->get(
+        "paybox.back_office_password"
+      ),
       DirectQuestionField::AMOUNT => $this->amount,
       DirectQuestionField::CURRENCY => $this->currencyCode,
       DirectQuestionField::REFERENCE => $this->paymentNumber,

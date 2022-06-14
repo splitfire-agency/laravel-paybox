@@ -23,11 +23,11 @@ class SignatureVerifierTest extends UnitTestCase
     $config = m::mock(Config::class);
     $files = new Filesystem();
 
-    $parameters = ['a' => 'b', 'c' => 'd', 'e' => 'fg'];
-    $data = 'a=b&c=d&e=fg';
+    $parameters = ["a" => "b", "c" => "d", "e" => "fg"];
+    $data = "a=b&c=d&e=fg";
 
     $key = openssl_pkey_get_private(
-      file_get_contents(realpath(__DIR__ . '/../keys/prvkey.pem'))
+      file_get_contents(realpath(__DIR__ . "/../keys/prvkey.pem"))
     );
     openssl_sign($data, $signature, $key);
     openssl_free_key($key);
@@ -38,10 +38,10 @@ class SignatureVerifierTest extends UnitTestCase
     ])->makePartial();
 
     $config
-      ->shouldReceive('get')
-      ->with('paybox.public_key')
+      ->shouldReceive("get")
+      ->with("paybox.public_key")
       ->once()
-      ->andReturn(realpath(__DIR__ . '/../keys/pubkey.pem'));
+      ->andReturn(realpath(__DIR__ . "/../keys/pubkey.pem"));
 
     /** @var SignatureVerifier $signatureVerifier */
     $result = $signatureVerifier->isCorrect(
@@ -60,9 +60,9 @@ class SignatureVerifierTest extends UnitTestCase
     $config = m::mock(Config::class);
     $files = new Filesystem();
 
-    $parameters = ['a' => 'b', 'c' => 'd', 'e' => 'fg'];
+    $parameters = ["a" => "b", "c" => "d", "e" => "fg"];
 
-    $signature = 'sample invalid signature';
+    $signature = "sample invalid signature";
 
     $signatureVerifier = m::mock(SignatureVerifier::class, [
       $config,
@@ -70,10 +70,10 @@ class SignatureVerifierTest extends UnitTestCase
     ])->makePartial();
 
     $config
-      ->shouldReceive('get')
-      ->with('paybox.public_key')
+      ->shouldReceive("get")
+      ->with("paybox.public_key")
       ->once()
-      ->andReturn(realpath(__DIR__ . '/../keys/pubkey.pem'));
+      ->andReturn(realpath(__DIR__ . "/../keys/pubkey.pem"));
 
     /** @var SignatureVerifier $signatureVerifier */
     $result = $signatureVerifier->isCorrect(

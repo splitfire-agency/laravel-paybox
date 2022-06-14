@@ -23,10 +23,10 @@ class Verify
    * @var array
    */
   protected $parameters = [
-    ResponseField::AMOUNT => 'amount',
-    ResponseField::AUTHORIZATION_NUMBER => 'authorization_number',
-    ResponseField::RESPONSE_CODE => 'response_code',
-    ResponseField::SIGNATURE => 'signature',
+    ResponseField::AMOUNT => "amount",
+    ResponseField::AUTHORIZATION_NUMBER => "authorization_number",
+    ResponseField::RESPONSE_CODE => "response_code",
+    ResponseField::SIGNATURE => "signature",
   ];
 
   /**
@@ -99,19 +99,19 @@ class Verify
   public function setParametersMap(array $parameters)
   {
     if (!isset($parameters[ResponseField::AMOUNT])) {
-      throw new Exception('Amount is missing');
+      throw new Exception("Amount is missing");
     }
 
     if (!isset($parameters[ResponseField::AUTHORIZATION_NUMBER])) {
-      throw new Exception('Authorization number is missing');
+      throw new Exception("Authorization number is missing");
     }
 
     if (!isset($parameters[ResponseField::RESPONSE_CODE])) {
-      throw new Exception('Response code is missing');
+      throw new Exception("Response code is missing");
     }
 
     if (!isset($parameters[ResponseField::SIGNATURE])) {
-      throw new Exception('Signature is missing');
+      throw new Exception("Signature is missing");
     }
 
     $this->parameters = $parameters;

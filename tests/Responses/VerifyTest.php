@@ -63,26 +63,26 @@ class VerifyTest extends UnitTestCase
   public function testIsSuccessItThrowsExceptionWhenSignatureIsInvalid()
   {
     $amount = 23.32;
-    $parameters = ['a' => 'b', 'c' => 'd', 'e' => 'f'];
-    $signature = 'sampleSignature';
+    $parameters = ["a" => "b", "c" => "d", "e" => "f"];
+    $signature = "sampleSignature";
 
     $this->verify
-      ->shouldReceive('checkSignature')
+      ->shouldReceive("checkSignature")
       ->withNoArgs()
       ->once()
       ->passthru();
     $this->request
-      ->shouldReceive('input')
-      ->with('signature')
+      ->shouldReceive("input")
+      ->with("signature")
       ->once()
       ->andReturn($signature);
     $this->request
-      ->shouldReceive('except')
-      ->with('signature')
+      ->shouldReceive("except")
+      ->with("signature")
       ->once()
       ->andReturn($parameters);
     $this->signatureVerifier
-      ->shouldReceive('isCorrect')
+      ->shouldReceive("isCorrect")
       ->with($signature, $parameters)
       ->once()
       ->andReturn(false);
@@ -100,27 +100,27 @@ class VerifyTest extends UnitTestCase
     $expectedAmount = 2332;
 
     $this->verify
-      ->shouldReceive('checkSignature')
+      ->shouldReceive("checkSignature")
       ->withNoArgs()
       ->once();
     $this->request
-      ->shouldReceive('input')
-      ->with('authorization_number')
+      ->shouldReceive("input")
+      ->with("authorization_number")
       ->once()
-      ->andReturn('Sample number');
+      ->andReturn("Sample number");
     $this->request
-      ->shouldReceive('input')
-      ->with('response_code')
+      ->shouldReceive("input")
+      ->with("response_code")
       ->once()
       ->andReturn(ResponseCode::SUCCESS);
 
     $this->request
-      ->shouldReceive('input')
-      ->with('amount')
+      ->shouldReceive("input")
+      ->with("amount")
       ->once()
       ->andReturn($expectedAmount);
     $this->amountService
-      ->shouldReceive('get')
+      ->shouldReceive("get")
       ->with($amount, false)
       ->once()
       ->andReturn($expectedAmount);
@@ -137,12 +137,12 @@ class VerifyTest extends UnitTestCase
     $amount = 23.32;
 
     $this->verify
-      ->shouldReceive('checkSignature')
+      ->shouldReceive("checkSignature")
       ->withNoArgs()
       ->once();
     $this->request
-      ->shouldReceive('input')
-      ->with('authorization_number')
+      ->shouldReceive("input")
+      ->with("authorization_number")
       ->once()
       ->andReturn(null);
 
@@ -158,17 +158,17 @@ class VerifyTest extends UnitTestCase
     $amount = 23.32;
 
     $this->verify
-      ->shouldReceive('checkSignature')
+      ->shouldReceive("checkSignature")
       ->withNoArgs()
       ->once();
     $this->request
-      ->shouldReceive('input')
-      ->with('authorization_number')
+      ->shouldReceive("input")
+      ->with("authorization_number")
       ->once()
-      ->andReturn('Sample number');
+      ->andReturn("Sample number");
     $this->request
-      ->shouldReceive('input')
-      ->with('response_code')
+      ->shouldReceive("input")
+      ->with("response_code")
       ->once()
       ->andReturn(ResponseCode::INVALID_EXPIRATION_DATE);
 
@@ -185,27 +185,27 @@ class VerifyTest extends UnitTestCase
     $expectedAmount = 2332;
 
     $this->verify
-      ->shouldReceive('checkSignature')
+      ->shouldReceive("checkSignature")
       ->withNoArgs()
       ->once();
     $this->request
-      ->shouldReceive('input')
-      ->with('authorization_number')
+      ->shouldReceive("input")
+      ->with("authorization_number")
       ->once()
-      ->andReturn('Sample number');
+      ->andReturn("Sample number");
     $this->request
-      ->shouldReceive('input')
-      ->with('response_code')
+      ->shouldReceive("input")
+      ->with("response_code")
       ->once()
       ->andReturn(ResponseCode::SUCCESS);
 
     $this->request
-      ->shouldReceive('input')
-      ->with('amount')
+      ->shouldReceive("input")
+      ->with("amount")
       ->once()
       ->andReturn($expectedAmount - 1);
     $this->amountService
-      ->shouldReceive('get')
+      ->shouldReceive("get")
       ->with($amount, false)
       ->once()
       ->andReturn($expectedAmount);
@@ -222,54 +222,54 @@ class VerifyTest extends UnitTestCase
   {
     $amount = 23.32;
     $expectedAmount = 2332;
-    $parameters = ['foo' => 'bar'];
-    $signature = 'sampleSignature';
+    $parameters = ["foo" => "bar"];
+    $signature = "sampleSignature";
 
     $this->verify->setParametersMap([
-      ResponseField::AMOUNT => 'money',
-      ResponseField::AUTHORIZATION_NUMBER => 'nr',
-      ResponseField::RESPONSE_CODE => 'code',
-      ResponseField::SIGNATURE => 'sig',
+      ResponseField::AMOUNT => "money",
+      ResponseField::AUTHORIZATION_NUMBER => "nr",
+      ResponseField::RESPONSE_CODE => "code",
+      ResponseField::SIGNATURE => "sig",
     ]);
 
     $this->verify
-      ->shouldReceive('checkSignature')
+      ->shouldReceive("checkSignature")
       ->withNoArgs()
       ->once()
       ->passthru();
     $this->request
-      ->shouldReceive('input')
-      ->with('sig')
+      ->shouldReceive("input")
+      ->with("sig")
       ->once()
       ->andReturn($signature);
     $this->request
-      ->shouldReceive('except')
-      ->with('sig')
+      ->shouldReceive("except")
+      ->with("sig")
       ->once()
       ->andReturn($parameters);
     $this->signatureVerifier
-      ->shouldReceive('isCorrect')
+      ->shouldReceive("isCorrect")
       ->with($signature, $parameters)
       ->once()
       ->andReturn(true);
     $this->request
-      ->shouldReceive('input')
-      ->with('nr')
+      ->shouldReceive("input")
+      ->with("nr")
       ->once()
-      ->andReturn('Sample number');
+      ->andReturn("Sample number");
     $this->request
-      ->shouldReceive('input')
-      ->with('code')
+      ->shouldReceive("input")
+      ->with("code")
       ->once()
       ->andReturn(ResponseCode::SUCCESS);
 
     $this->request
-      ->shouldReceive('input')
-      ->with('money')
+      ->shouldReceive("input")
+      ->with("money")
       ->once()
       ->andReturn($expectedAmount);
     $this->amountService
-      ->shouldReceive('get')
+      ->shouldReceive("get")
       ->with($amount, false)
       ->once()
       ->andReturn($expectedAmount);
@@ -285,12 +285,12 @@ class VerifyTest extends UnitTestCase
   public function testSetParametersMapItThrowsExceptionWhenNoAmountFieldGiven()
   {
     $this->expectException(Exception::class);
-    $this->expectExceptionMessage('Amount is missing');
+    $this->expectExceptionMessage("Amount is missing");
 
     $this->verify->setParametersMap([
-      ResponseField::AUTHORIZATION_NUMBER => 'nr',
-      ResponseField::RESPONSE_CODE => 'code',
-      ResponseField::SIGNATURE => 'sig',
+      ResponseField::AUTHORIZATION_NUMBER => "nr",
+      ResponseField::RESPONSE_CODE => "code",
+      ResponseField::SIGNATURE => "sig",
     ]);
   }
 
@@ -301,12 +301,12 @@ class VerifyTest extends UnitTestCase
   public function testSetParametersMapItThrowsExceptionWhenNoAuthorizationNumberGiven()
   {
     $this->expectException(Exception::class);
-    $this->expectExceptionMessage('Authorization number is missing');
+    $this->expectExceptionMessage("Authorization number is missing");
 
     $this->verify->setParametersMap([
-      ResponseField::AMOUNT => 'money',
-      ResponseField::RESPONSE_CODE => 'code',
-      ResponseField::SIGNATURE => 'sig',
+      ResponseField::AMOUNT => "money",
+      ResponseField::RESPONSE_CODE => "code",
+      ResponseField::SIGNATURE => "sig",
     ]);
   }
 
@@ -317,12 +317,12 @@ class VerifyTest extends UnitTestCase
   public function testSetParametersMapItThrowsExceptionWhenNoResponseCodeGiven()
   {
     $this->expectException(Exception::class);
-    $this->expectExceptionMessage('Response code is missing');
+    $this->expectExceptionMessage("Response code is missing");
 
     $this->verify->setParametersMap([
-      ResponseField::AMOUNT => 'money',
-      ResponseField::AUTHORIZATION_NUMBER => 'nr',
-      ResponseField::SIGNATURE => 'sig',
+      ResponseField::AMOUNT => "money",
+      ResponseField::AUTHORIZATION_NUMBER => "nr",
+      ResponseField::SIGNATURE => "sig",
     ]);
   }
 
@@ -333,12 +333,12 @@ class VerifyTest extends UnitTestCase
   public function testSetParametersMapItThrowsExceptionWhenNoSignatureGiven()
   {
     $this->expectException(Exception::class);
-    $this->expectExceptionMessage('Signature is missing');
+    $this->expectExceptionMessage("Signature is missing");
 
     $this->verify->setParametersMap([
-      ResponseField::AMOUNT => 'money',
-      ResponseField::AUTHORIZATION_NUMBER => 'nr',
-      ResponseField::RESPONSE_CODE => 'code',
+      ResponseField::AMOUNT => "money",
+      ResponseField::AUTHORIZATION_NUMBER => "nr",
+      ResponseField::RESPONSE_CODE => "code",
     ]);
   }
 
@@ -349,10 +349,10 @@ class VerifyTest extends UnitTestCase
   {
     $responseCode = 123123;
     $this->request
-      ->shouldReceive('input')
-      ->with('response_code')
+      ->shouldReceive("input")
+      ->with("response_code")
       ->andReturn($responseCode);
     $result = $this->verify->getResponseCode();
-    $this->assertSame('123123', $result);
+    $this->assertSame("123123", $result);
   }
 }

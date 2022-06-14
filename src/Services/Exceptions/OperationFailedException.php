@@ -11,9 +11,9 @@ class OperationFailedException extends \Exception
   public function __construct($errorCode, $comment)
   {
     parent::__construct(
-      trans('paybox::exceptions.operation_failed_exception', [
-        'code' => $errorCode,
-        'message' => $comment,
+      trans("paybox::exceptions.operation_failed_exception", [
+        "code" => $errorCode,
+        "message" => $comment,
       ])
     );
 

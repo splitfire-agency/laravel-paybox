@@ -2,6 +2,7 @@
 
 namespace Sf\PayboxGateway\Requests\PayboxDirect;
 
+use Illuminate\Support\Facades\App;
 use Sf\PayboxGateway\DirectQuestionField;
 use Sf\PayboxGateway\HttpClient\GuzzleHttpClient;
 use Sf\PayboxGateway\Jobs\NotifyPaymentStatus;
@@ -23,7 +24,7 @@ abstract class DirectRequest extends Request
   /**
    * {@inheritdoc}
    */
-  protected $type = 'paybox_direct';
+  protected $type = "paybox_direct";
 
   /**
    * @var GuzzleHttpClient
@@ -89,7 +90,7 @@ abstract class DirectRequest extends Request
   public function setUrlFrom($authorizationUrl, $other = false)
   {
     $this->url = $this->serverSelector->findFrom(
-      'paybox',
+      "paybox",
       $this->type,
       $authorizationUrl,
       $other
@@ -128,9 +129,11 @@ abstract class DirectRequest extends Request
     $response = new $responseClass(
       $this->client->request($this->getUrl(), $parameters)
     );
-    $response->setModel(
-      Response::create($this->buildResponseAttributes($response->getFields()))
-    );
+    if (!App::runningUnitTests()) {
+      $response->setModel(
+        Response::create($this->buildResponseAttributes($response->getFields()))
+      );
+    }
 
     $requestsWithNotifications = [
       QuestionTypeCode::CAPTURE_ONLY,
@@ -140,7 +143,7 @@ abstract class DirectRequest extends Request
     ];
 
     if (
-    $this->config->get('paybox.notifications.enabled') &&
+      $this->config->get("paybox.notifications.enabled") &&
       in_array($this->getQuestionType(), $requestsWithNotifications) &&
       $response->getModel()->codereponse === ResponseCode::SUCCESS
     ) {
@@ -161,7 +164,7 @@ abstract class DirectRequest extends Request
           $this->config
         );
 
-        if ($this->config->get('paybox.notifications.queue') !== false) {
+        if ($this->config->get("paybox.notifications.queue") !== false) {
           $dispatcher->dispatch($job);
         } else {
           $dispatcher->dispatchNow($job);
@@ -180,21 +183,21 @@ abstract class DirectRequest extends Request
   public function getDefaultParameters()
   {
     $params = [
-      DirectQuestionField::HASH => 'SHA512',
+      DirectQuestionField::HASH => "SHA512",
       DirectQuestionField::PAYBOX_VERSION => $this->config->get(
-        'paybox.direct_version',
-        '00104'
+        "paybox.direct_version",
+        "00104"
       ),
       DirectQuestionField::PAYBOX_TYPE => $this->getQuestionType(),
-      DirectQuestionField::PAYBOX_SITE => $this->config->get('paybox.site'),
-      DirectQuestionField::PAYBOX_RANK => $this->config->get('paybox.rank'),
+      DirectQuestionField::PAYBOX_SITE => $this->config->get("paybox.site"),
+      DirectQuestionField::PAYBOX_RANK => $this->config->get("paybox.rank"),
       DirectQuestionField::PAYBOX_QUESTION_DATE => $this->getFormattedDate(
         $this->time ?: Carbon::now()
       ),
     ];
 
     if (!empty($this->archiveReference)) {
-      $params['ARCHIVAGE'] = $this->archiveReference;
+      $params["ARCHIVAGE"] = $this->archiveReference;
     }
 
     return $params;
@@ -213,15 +216,18 @@ abstract class DirectRequest extends Request
       $this->storeMaskedField($field, $params, $originals);
     }
 
-    $question = Question::create($this->buildQuestionAttributes($params));
-    $params = array_change_key_case($question->toArray(), CASE_UPPER);
+    $numquestion = null;
+    if (!App::runningUnitTests()) {
+      $question = Question::create($this->buildQuestionAttributes($params));
+      $params = array_change_key_case($question->toArray(), CASE_UPPER);
+      $numquestion = $question->numquestion;
+    }
 
     foreach ($this->masked as $field) {
       $this->restoreMaskedField($field, $params, $originals);
     }
 
-    $params[DirectQuestionField::PAYBOX_QUESTION_NUMBER] =
-      $question->numquestion;
+    $params[DirectQuestionField::PAYBOX_QUESTION_NUMBER] = $numquestion;
     $params[DirectQuestionField::HMAC] = $this->hmacHashGenerator->get($params);
 
     return $params;
@@ -236,7 +242,7 @@ abstract class DirectRequest extends Request
    */
   protected function getFormattedDate(Carbon $date)
   {
-    return $date->format('dmYHis');
+    return $date->format("dmYHis");
   }
 
   /**

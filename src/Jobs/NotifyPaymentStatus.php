@@ -30,9 +30,9 @@ class NotifyPaymentStatus implements ShouldQueue
 
   public function __construct(Notification $notification, Config $config)
   {
-    $queue = $this->config->get('paybox.notifications.queue');
-    $this->onConnection($queue['connection']);
-    $this->onQueue($queue['queue']);
+    $queue = $this->config->get("paybox.notifications.queue");
+    $this->onConnection($queue["connection"]);
+    $this->onQueue($queue["queue"]);
     $this->notificationId = $notification->id;
   }
 
@@ -49,21 +49,21 @@ class NotifyPaymentStatus implements ShouldQueue
       return;
     }
 
-    $notifyUrl = $this->config->get('paybox.notifications.url');
+    $notifyUrl = $this->config->get("paybox.notifications.url");
     try {
       $hash = md5(
-        join('+', [
-          'V1',
+        join("+", [
+          "V1",
           $notification->reference,
-          $notification->data['transaction_number'],
-          $notification->data['call_number'],
-          $notification->data['remittance_number'],
-          $notification->data['amount'],
+          $notification->data["transaction_number"],
+          $notification->data["call_number"],
+          $notification->data["remittance_number"],
+          $notification->data["amount"],
         ])
       );
       $response = $client->requestRaw(
         $notifyUrl,
-        ['hash' => $hash, 'reference' => $notification->reference] +
+        ["hash" => $hash, "reference" => $notification->reference] +
           $notification->data
       );
       if (
@@ -79,11 +79,11 @@ class NotifyPaymentStatus implements ShouldQueue
         $this->succeeded($notification);
       }
     } catch (GuzzleException $e) {
-      Log::error(sprintf('Failed IPN notifications : %s', $e->getMessage()), [
-        'id' => $notification->id,
-        'question' => $notification->numquestion,
-        'reference' => $notification->reference,
-        'trace' => $e->getTraceAsString(),
+      Log::error(sprintf("Failed IPN notifications : %s", $e->getMessage()), [
+        "id" => $notification->id,
+        "question" => $notification->numquestion,
+        "reference" => $notification->reference,
+        "trace" => $e->getTraceAsString(),
       ]);
       $this->fail($notification, $e->getCode(), $e->getMessage());
     }
@@ -95,7 +95,7 @@ class NotifyPaymentStatus implements ShouldQueue
     $notification->return_code = $code;
     $notification->return_content = $body;
 
-    if ($email = $this->config->get('paybox.notifications.notify_to')) {
+    if ($email = $this->config->get("paybox.notifications.notify_to")) {
       $notification->notified_at = Carbon::now();
     }
 
@@ -108,48 +108,48 @@ class NotifyPaymentStatus implements ShouldQueue
     if ($email) {
       try {
         $data = [
-          'url' => $this->config->get('paybox.notifications.url'),
-          'id' => $notification->id,
-          'reference' => $notification->reference,
-          'code' => $notification->return_code,
-          'content' => $notification->return_content,
-          'tries' => $notification->tries,
+          "url" => $this->config->get("paybox.notifications.url"),
+          "id" => $notification->id,
+          "reference" => $notification->reference,
+          "code" => $notification->return_code,
+          "content" => $notification->return_content,
+          "tries" => $notification->tries,
         ];
         Mail::raw(
           <<<EMAIL
-IPN notification as failed #{$data['tries']}:
+IPN notification as failed #{$data["tries"]}:
 
-URL: {$data['url']}
-ID: {$data['id']}
-CODE: {$data['code']}
+URL: {$data["url"]}
+ID: {$data["id"]}
+CODE: {$data["code"]}
 CONTENT:
-{$data['content']}
+{$data["content"]}
 EMAIL
           ,
           function (Message $message) use ($email, $data) {
             $message
               ->from(
                 $this->config->get(
-                  'paybox.notifications.notify_from.address',
-                  $this->config->get('mail.from.address')
+                  "paybox.notifications.notify_from.address",
+                  $this->config->get("mail.from.address")
                 ),
                 $this->config->get(
-                  'paybox.notifications.notify_from.name',
-                  $this->config->get('mail.from.name')
+                  "paybox.notifications.notify_from.name",
+                  $this->config->get("mail.from.name")
                 )
               )
               ->to($email)
               ->subject(
                 sprintf(
-                  'IPN notification failure %s (#%s)',
-                  $data['reference'],
-                  $data['tries']
+                  "IPN notification failure %s (#%s)",
+                  $data["reference"],
+                  $data["tries"]
                 )
               );
           }
         );
       } catch (\Throwable $e) {
-        Log::error('Failed to send IPN failure notification email');
+        Log::error("Failed to send IPN failure notification email");
         Log::error($e);
       }
     }
@@ -159,7 +159,7 @@ EMAIL
         max(
           15,
           $notification->tries *
-            intval($this->config->get('paybox.notifications.retry_after'))
+            intval($this->config->get("paybox.notifications.retry_after"))
         )
       );
     }

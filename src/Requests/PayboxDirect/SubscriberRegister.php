@@ -53,7 +53,7 @@ class SubscriberRegister extends SubscriberRequest
    */
   public function setCardExpirationDate(Carbon $cardExpirationDate)
   {
-    $this->cardExpirationDate = $cardExpirationDate->format('my');
+    $this->cardExpirationDate = $cardExpirationDate->format("my");
 
     return $this;
   }

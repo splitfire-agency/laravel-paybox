@@ -42,13 +42,13 @@ class GuzzleHttpClient
    */
   public function requestRaw($url, array $parameters)
   {
-    if (method_exists($this->client, 'request')) {
-      $response = $this->client->request('POST', $url, [
-        'form_params' => $parameters,
+    if (method_exists($this->client, "request")) {
+      $response = $this->client->request("POST", $url, [
+        "form_params" => $parameters,
       ]);
     } else {
       $response = $this->client->post($url, [
-        'body' => $parameters,
+        "body" => $parameters,
       ]);
     }
 

@@ -24,8 +24,8 @@ class HmacHashGeneratorTest extends UnitTestCase
     $config = Mockery::mock(Config::class);
 
     $app
-      ->shouldReceive('make')
-      ->with('config')
+      ->shouldReceive("make")
+      ->with("config")
       ->once()
       ->andReturn($config);
 
@@ -33,18 +33,18 @@ class HmacHashGeneratorTest extends UnitTestCase
     $generator = new HmacHashGenerator($app);
 
     $params = [
-      'param1' => 'value',
-      'param2' => 'value % 2',
+      "param1" => "value",
+      "param2" => "value % 2",
     ];
 
-    $secret = 'secret';
+    $secret = "secret";
 
-    $key = unpack('H*', $secret);
+    $key = unpack("H*", $secret);
     $key = $key[1];
 
     $config
-      ->shouldReceive('get')
-      ->with('paybox.hmac_key')
+      ->shouldReceive("get")
+      ->with("paybox.hmac_key")
       ->once()
       ->andReturn($key);
 
@@ -52,8 +52,8 @@ class HmacHashGeneratorTest extends UnitTestCase
 
     $hmac = mb_strtoupper(
       hash_hmac(
-        'sha512',
-        'param1=' . $params['param1'] . '&param2=' . $params['param2'],
+        "sha512",
+        "param1=" . $params["param1"] . "&param2=" . $params["param2"],
         $secret
       )
     );
