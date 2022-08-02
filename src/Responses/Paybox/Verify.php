@@ -41,7 +41,7 @@ class Verify
   protected $amountService;
 
   /**
-   * @var Config
+   * @var Config|null
    */
   protected $config;
 
@@ -51,13 +51,13 @@ class Verify
    * @param Request $request
    * @param SignatureVerifier $signatureVerifier
    * @param Amount $amountService
-   * @param Config $config
+   * @param Config|null $config
    */
   public function __construct(
     Request $request,
     SignatureVerifier $signatureVerifier,
     Amount $amountService,
-    Config $config
+    ?Config $config = null
   ) {
     $this->request = $request;
     $this->signatureVerifier = $signatureVerifier;
@@ -71,9 +71,11 @@ class Verify
    */
   protected function initParameters()
   {
-    $parameters = (array) $this->config->get("paybox.return_fields");
-    foreach ($parameters as $key => $value) {
-      $this->parameters[$key] = $value;
+    if ($this->config) {
+      $parameters = (array) $this->config->get("paybox.return_fields");
+      foreach ($parameters as $key => $value) {
+        $this->parameters[$key] = $value;
+      }
     }
   }
 
