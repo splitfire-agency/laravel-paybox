@@ -37,7 +37,7 @@ class SignatureVerifier
    *
    * @return int
    */
-  public function isCorrect($signature, array $parameters)
+  public function isCorrect(string $signature, array $parameters)
   {
     $signature = base64_decode($signature);
 
@@ -49,7 +49,7 @@ class SignatureVerifier
   /**
    * Load public key.
    *
-   * @return resource
+   * @return false|\OpenSSLAsymmetricKey
    */
   protected function getKey()
   {
@@ -69,7 +69,7 @@ class SignatureVerifier
   {
     return collect($parameters)
       ->map(function ($value, $key) {
-        return $key . "=" . $value;
+        return $key . "=" . urlencode($value);
       })
       ->implode("&");
   }
