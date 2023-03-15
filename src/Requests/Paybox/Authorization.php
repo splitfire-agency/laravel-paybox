@@ -40,7 +40,7 @@ abstract class Authorization extends Request
   protected $shoppingCartTotalPrice = null;
 
   /**
-   * @var float|null
+   * @var int|null
    */
   protected $shoppingCartTotalQuantity = null;
 
@@ -196,11 +196,11 @@ abstract class Authorization extends Request
   /**
    * Set shopping cart total quantity
    *
-   * @param float $shoppingCartTotalQuantity
+   * @param int $shoppingCartTotalQuantity
    *
    * @return Authorization
    */
-  public function setShoppingCartTotalQuantity(float $shoppingCartTotalQuantity)
+  public function setShoppingCartTotalQuantity(int $shoppingCartTotalQuantity)
   {
     $this->shoppingCartTotalQuantity = $shoppingCartTotalQuantity;
 
