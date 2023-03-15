@@ -25,10 +25,7 @@ class BillingTest extends UnitTestCase
     $service->setCity("Paris");
     $service->setCountryCode(250);
     $this->assertSame(
-      '<?xml version="1.0" encoding="utf-8"?>' .
-        PHP_EOL .
-        "<Billing><Address/><FirstName>John</FirstName><LastName>Doe</LastName><Address1>1 rue de la paix</Address1><ZipCode>75000</ZipCode><City>Paris</City><CountryCode>250</CountryCode></Billing>" .
-        PHP_EOL,
+      '<?xml version="1.0" encoding="utf-8"?><Billing><Address><FirstName>John</FirstName><LastName>Doe</LastName><Address1>1 rue de la paix</Address1><ZipCode>75000</ZipCode><City>Paris</City><CountryCode>250</CountryCode></Address></Billing>',
       $service->getXml()
     );
   }
@@ -40,10 +37,7 @@ class BillingTest extends UnitTestCase
   {
     $service = new Billing();
     $this->assertSame(
-      '<?xml version="1.0" encoding="utf-8"?>' .
-        PHP_EOL .
-        "<Billing><Address/><FirstName>xxx</FirstName><LastName>xxx</LastName><Address1>xxx</Address1><ZipCode>xxx</ZipCode><City>xxx</City><CountryCode>250</CountryCode></Billing>" .
-        PHP_EOL,
+      '<?xml version="1.0" encoding="utf-8"?><Billing><Address><FirstName>xxx</FirstName><LastName>xxx</LastName><Address1>xxx</Address1><ZipCode>xxx</ZipCode><City>xxx</City><CountryCode>250</CountryCode></Address></Billing>',
       $service->getXml()
     );
   }

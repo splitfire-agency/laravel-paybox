@@ -229,7 +229,7 @@ abstract class Authorization extends Request
     }
     $dom->total->addChild("totalQuantity", $totalQuantity);
 
-    return $dom->asXML();
+    return str_replace(["\n", "\r"], "", $dom->asXML());
   }
 
   /**

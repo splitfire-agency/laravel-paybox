@@ -322,19 +322,19 @@ class Billing
       '<?xml version="1.0" encoding="utf-8"?><Billing><Address></Address></Billing>'
     );
     if ($this->companyName) {
-      $dom->addChild("CompanyName", $this->companyName);
+      $dom->Address->addChild("CompanyName", $this->companyName);
     }
-    $dom->addChild("FirstName", $this->firstName ?? "xxx");
-    $dom->addChild("LastName", $this->lastName ?? "xxx");
-    $dom->addChild("Address1", $this->address1 ?? "xxx");
+    $dom->Address->addChild("FirstName", $this->firstName ?? "xxx");
+    $dom->Address->addChild("LastName", $this->lastName ?? "xxx");
+    $dom->Address->addChild("Address1", $this->address1 ?? "xxx");
     if ($this->address2) {
-      $dom->addChild("Address2", $this->address2);
+      $dom->Address->addChild("Address2", $this->address2);
     }
-    $dom->addChild("ZipCode", $this->zipcode ?? "xxx");
-    $dom->addChild("City", $this->city ?? "xxx");
-    $dom->addChild("CountryCode", $this->countryCode ?? 250);
+    $dom->Address->addChild("ZipCode", $this->zipcode ?? "xxx");
+    $dom->Address->addChild("City", $this->city ?? "xxx");
+    $dom->Address->addChild("CountryCode", $this->countryCode ?? 250);
 
-    return $dom->asXML();
+    return str_replace(["\n", "\r"], "", $dom->asXML());
   }
 
   /**

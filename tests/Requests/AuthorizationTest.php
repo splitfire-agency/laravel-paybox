@@ -524,10 +524,7 @@ class AuthorizationTest extends UnitTestCase
     $this->request->setShoppingCartTotalQuantity(10);
     $xml = $this->request->getShoppingCartXml();
     $this->assertSame(
-      '<?xml version="1.0" encoding="utf-8"?>' .
-        PHP_EOL .
-        "<shoppingcart><total><totalPrice>50.1</totalPrice><totalQuantity>10</totalQuantity></total></shoppingcart>" .
-        PHP_EOL,
+      '<?xml version="1.0" encoding="utf-8"?><shoppingcart><total><totalPrice>50.1</totalPrice><totalQuantity>10</totalQuantity></total></shoppingcart>',
       $xml
     );
   }
@@ -540,10 +537,7 @@ class AuthorizationTest extends UnitTestCase
     $this->ignoreMissingMethods();
     $xml = $this->request->getShoppingCartXml();
     $this->assertSame(
-      '<?xml version="1.0" encoding="utf-8"?>' .
-        PHP_EOL .
-        "<shoppingcart><total><totalQuantity>1</totalQuantity></total></shoppingcart>" .
-        PHP_EOL,
+      '<?xml version="1.0" encoding="utf-8"?><shoppingcart><total><totalQuantity>1</totalQuantity></total></shoppingcart>',
       $xml
     );
   }
@@ -557,10 +551,7 @@ class AuthorizationTest extends UnitTestCase
     $this->request->setShoppingCartTotalQuantity(-1);
     $xml = $this->request->getShoppingCartXml();
     $this->assertSame(
-      '<?xml version="1.0" encoding="utf-8"?>' .
-        PHP_EOL .
-        "<shoppingcart><total><totalQuantity>1</totalQuantity></total></shoppingcart>" .
-        PHP_EOL,
+      '<?xml version="1.0" encoding="utf-8"?><shoppingcart><total><totalQuantity>1</totalQuantity></total></shoppingcart>',
       $xml
     );
   }
@@ -574,10 +565,7 @@ class AuthorizationTest extends UnitTestCase
     $this->request->setShoppingCartTotalQuantity(102);
     $xml = $this->request->getShoppingCartXml();
     $this->assertSame(
-      '<?xml version="1.0" encoding="utf-8"?>' .
-        PHP_EOL .
-        "<shoppingcart><total><totalQuantity>99</totalQuantity></total></shoppingcart>" .
-        PHP_EOL,
+      '<?xml version="1.0" encoding="utf-8"?><shoppingcart><total><totalQuantity>99</totalQuantity></total></shoppingcart>',
       $xml
     );
   }
