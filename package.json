@@ -1,6 +1,6 @@
 {
   "name": "laravel-paybox",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "Laravel 8 Paybox",
   "directories": {
     "test": "tests"

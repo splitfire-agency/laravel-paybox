@@ -4,13 +4,16 @@ namespace Sf\PayboxGateway\Requests\Paybox;
 
 use Sf\PayboxGateway\Language;
 use Sf\PayboxGateway\Requests\Request;
+use Sf\PayboxGateway\ResponseField;
 use Sf\PayboxGateway\Services\Amount;
+use Sf\PayboxGateway\Services\Billing;
 use Sf\PayboxGateway\Services\HmacHashGenerator;
 use Sf\PayboxGateway\Services\ServerSelector;
 use Carbon\Carbon;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Routing\Router;
+use SimpleXMLElement;
 
 abstract class Authorization extends Request
 {
@@ -30,6 +33,21 @@ abstract class Authorization extends Request
    * @var string|null
    */
   protected $customerEmail = null;
+
+  /**
+   * @var float|null
+   */
+  protected $shoppingCartTotalPrice = null;
+
+  /**
+   * @var float|null
+   */
+  protected $shoppingCartTotalQuantity = null;
+
+  /**
+   * @var Billing|null
+   */
+  protected $billing = null;
 
   /**
    * @var array|null
@@ -60,6 +78,11 @@ abstract class Authorization extends Request
    * @var string|null
    */
   protected $transactionVerifyUrl = null;
+
+  /**
+   * @var bool
+   */
+  protected $transactionCreateSubscriber = true;
 
   /**
    * @var HmacHashGenerator
@@ -118,7 +141,7 @@ abstract class Authorization extends Request
    */
   protected function getBasicParameters()
   {
-    return [
+    $parameters = [
       "PBX_SITE" => $this->config->get("paybox.site"),
       "PBX_RANG" => $this->config->get("paybox.rank"),
       "PBX_IDENTIFIANT" => $this->config->get("paybox.id"),
@@ -147,7 +170,80 @@ abstract class Authorization extends Request
         "waiting"
       ),
       "PBX_REPONDRE_A" => $this->getTransactionUrl(),
+      "PBX_SHOPPINGCART" => $this->getShoppingCartXml(),
     ];
+    if ($this->billing) {
+      $parameters["PBX_BILLING"] = $this->billing->getXml();
+    }
+
+    return $parameters;
+  }
+
+  /**
+   * Set shopping cart total price
+   *
+   * @param float $shoppingCartTotalPrice
+   *
+   * @return Authorization
+   */
+  public function setShoppingCartTotalPrice(float $shoppingCartTotalPrice)
+  {
+    $this->shoppingCartTotalPrice = $shoppingCartTotalPrice;
+
+    return $this;
+  }
+
+  /**
+   * Set shopping cart total quantity
+   *
+   * @param float $shoppingCartTotalQuantity
+   *
+   * @return Authorization
+   */
+  public function setShoppingCartTotalQuantity(float $shoppingCartTotalQuantity)
+  {
+    $this->shoppingCartTotalQuantity = $shoppingCartTotalQuantity;
+
+    return $this;
+  }
+
+  /**
+   * Get shopping cart xml from shopping cart infos
+   * @return string
+   */
+  public function getShoppingCartXml()
+  {
+    $dom = new SimpleXMLElement(
+      '<?xml version="1.0" encoding="utf-8"?><shoppingcart><total></total></shoppingcart>'
+    );
+    if ($this->shoppingCartTotalPrice) {
+      $dom->total->addChild("totalPrice", $this->shoppingCartTotalPrice);
+    }
+    $totalQuantity = $this->shoppingCartTotalQuantity;
+    if (!$totalQuantity) {
+      $totalQuantity = 1;
+    } elseif ($totalQuantity < 1) {
+      $totalQuantity = 1;
+    } elseif ($totalQuantity > 99) {
+      $totalQuantity = 99;
+    }
+    $dom->total->addChild("totalQuantity", $totalQuantity);
+
+    return $dom->asXML();
+  }
+
+  /**
+   * Set billings infos
+   *
+   * @param Billing $billing
+   *
+   * @return Authorization
+   */
+  public function setBilling(Billing $billing)
+  {
+    $this->billing = $billing;
+
+    return $this;
   }
 
   /**
@@ -214,8 +310,14 @@ abstract class Authorization extends Request
     $returnFields =
       (array) ($this->returnFields ?:
       $this->config->get("paybox.return_fields"));
-
     return collect($returnFields)
+      ->reject(function ($value) {
+        return !$this->transactionCreateSubscriber &&
+          strtolower($value) ==
+            strtolower(
+              ResponseField::SUBSCRIPTION_CARD_OR_PAYPAL_AUTHORIZATION
+            );
+      })
       ->map(function ($value, $key) {
         return $key . ":" . $value;
       })
@@ -288,6 +390,20 @@ abstract class Authorization extends Request
   public function setTransactionVerifyUrl($url)
   {
     $this->transactionVerifyUrl = $url;
+
+    return $this;
+  }
+
+  /**
+   * Set transaction create subscriber.
+   *
+   * @param $transactionCreateSubscriber
+   *
+   * @return $this
+   */
+  public function setTransactionCreateSubscriber($transactionCreateSubscriber)
+  {
+    $this->transactionCreateSubscriber = $transactionCreateSubscriber;
 
     return $this;
   }
