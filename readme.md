@@ -95,6 +95,22 @@ You might want in this step adjust also view for sending request because in some
 
 In case you use `AuthorizationWithoutCapture` you should make sure, you have `\Sf\PayboxGateway\ResponseField::PAYBOX_CALL_NUMBER` and `\Sf\PayboxGateway\ResponseField::TRANSACTION_NUMBER` in your return fields because those values will be needed when capturing payment later.  You should also always have `\Sf\PayboxGateway\ResponseField::AUTHORIZATION_NUMBER` and `\Sf\PayboxGateway\ResponseField::SIGNATURE` in your return fields and signature should be always last parameter.
 
+DSP2 support :
+```php
+$authorizationRequest = \App::make(\Sf\PayboxGateway\Requests\AuthorizationWithCapture::class);
+$authorizationRequest
+  ->setShoppingCartTotalPrice(50.10)
+  ->setShoppingCartTotalQuantity(2)
+  ->setBilling(new Service\Billing([
+    'firstName' => 'John',
+    'lastName' => 'Doe',
+    'address1' => '1 rue de la paix',
+    'zipcode' => '75000',
+    'city' => 'Paris',
+    'countryCode' => 'FR',
+  ]));
+```
+
 #### Define customer returning routes
 
 By default 4 sample views were created with sample English texts. You should create routes that will display those views (those routes will be launched using `GET` HTTP method), adjust those views and in most cases it will be enough because the real status of payment will be verified using transaction verify route.

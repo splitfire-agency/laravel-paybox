@@ -513,4 +513,72 @@ class AuthorizationTest extends UnitTestCase
     $this->assertSame($transactionUrl, $parameters["PBX_REPONDRE_A"]);
     $this->assertSame($sampleHmac, $parameters["PBX_HMAC"]);
   }
+
+  /**
+   * Test getShoppingCartXml get valid xml
+   */
+  public function testGetShoppingCartXmlWithTotalPriceAndWithTotalQuantity()
+  {
+    $this->ignoreMissingMethods();
+    $this->request->setShoppingCartTotalPrice(50.1);
+    $this->request->setShoppingCartTotalQuantity(10);
+    $xml = $this->request->getShoppingCartXml();
+    $this->assertSame(
+      '<?xml version="1.0" encoding="utf-8"?>' .
+        PHP_EOL .
+        "<shoppingcart><total><totalPrice>50.1</totalPrice><totalQuantity>10</totalQuantity></total></shoppingcart>" .
+        PHP_EOL,
+      $xml
+    );
+  }
+
+  /**
+   * Test getShoppingCartXml get valid xml
+   */
+  public function testGetShoppingCartXmlWithoutTotalPriceAndWithoutTotalQuantity()
+  {
+    $this->ignoreMissingMethods();
+    $xml = $this->request->getShoppingCartXml();
+    $this->assertSame(
+      '<?xml version="1.0" encoding="utf-8"?>' .
+        PHP_EOL .
+        "<shoppingcart><total><totalQuantity>1</totalQuantity></total></shoppingcart>" .
+        PHP_EOL,
+      $xml
+    );
+  }
+
+  /**
+   * Test getShoppingCartXml get valid xml
+   */
+  public function testGetShoppingCartXmlWithTotalQuantityInf1()
+  {
+    $this->ignoreMissingMethods();
+    $this->request->setShoppingCartTotalQuantity(-1);
+    $xml = $this->request->getShoppingCartXml();
+    $this->assertSame(
+      '<?xml version="1.0" encoding="utf-8"?>' .
+        PHP_EOL .
+        "<shoppingcart><total><totalQuantity>1</totalQuantity></total></shoppingcart>" .
+        PHP_EOL,
+      $xml
+    );
+  }
+
+  /**
+   * Test getShoppingCartXml get valid xml
+   */
+  public function testGetShoppingCartXmlWithInvalidTotalQuantitySup99()
+  {
+    $this->ignoreMissingMethods();
+    $this->request->setShoppingCartTotalQuantity(102);
+    $xml = $this->request->getShoppingCartXml();
+    $this->assertSame(
+      '<?xml version="1.0" encoding="utf-8"?>' .
+        PHP_EOL .
+        "<shoppingcart><total><totalQuantity>99</totalQuantity></total></shoppingcart>" .
+        PHP_EOL,
+      $xml
+    );
+  }
 }
