@@ -4,6 +4,7 @@ namespace Sf\PayboxGateway\Requests\Paybox;
 
 use Sf\PayboxGateway\Language;
 use Sf\PayboxGateway\Requests\Request;
+use Sf\PayboxGateway\ResponseField;
 use Sf\PayboxGateway\Services\Amount;
 use Sf\PayboxGateway\Services\HmacHashGenerator;
 use Sf\PayboxGateway\Services\ServerSelector;
@@ -60,6 +61,11 @@ abstract class Authorization extends Request
    * @var string|null
    */
   protected $transactionVerifyUrl = null;
+
+  /**
+   * @var bool
+   */
+  protected $transactionCreateSubscriber = true;
 
   /**
    * @var HmacHashGenerator
@@ -214,8 +220,14 @@ abstract class Authorization extends Request
     $returnFields =
       (array) ($this->returnFields ?:
       $this->config->get("paybox.return_fields"));
-
     return collect($returnFields)
+      ->reject(function ($value) {
+        return !$this->transactionCreateSubscriber &&
+          strtolower($value) ==
+            strtolower(
+              ResponseField::SUBSCRIPTION_CARD_OR_PAYPAL_AUTHORIZATION
+            );
+      })
       ->map(function ($value, $key) {
         return $key . ":" . $value;
       })
@@ -288,6 +300,20 @@ abstract class Authorization extends Request
   public function setTransactionVerifyUrl($url)
   {
     $this->transactionVerifyUrl = $url;
+
+    return $this;
+  }
+
+  /**
+   * Set transaction create subscriber.
+   *
+   * @param $transactionCreateSubscriber
+   *
+   * @return $this
+   */
+  public function setTransactionCreateSubscriber($transactionCreateSubscriber)
+  {
+    $this->transactionCreateSubscriber = $transactionCreateSubscriber;
 
     return $this;
   }
