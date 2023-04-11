@@ -31,6 +31,24 @@ class BillingTest extends UnitTestCase
   }
 
   /**
+   * Test valid billing export xml
+   */
+  public function testBillingExportXmlWithSpecialChar()
+  {
+    $service = new Billing();
+    $service->setFirstName("John<");
+    $service->setLastName("Doe>");
+    $service->setAddress1("1 & rue d'la paix");
+    $service->setZipCode("75000");
+    $service->setCity("Paris");
+    $service->setCountryCode(250);
+    $this->assertSame(
+      '<?xml version="1.0" encoding="utf-8"?><Billing><Address><FirstName>John&lt;</FirstName><LastName>Doe&gt;</LastName><Address1>1 &amp; rue d\'la paix</Address1><ZipCode>75000</ZipCode><City>Paris</City><CountryCode>250</CountryCode></Address></Billing>',
+      $service->getXml()
+    );
+  }
+
+  /**
    * Test empty billing export xml
    */
   public function testBillingExportXmlWithoutData()
