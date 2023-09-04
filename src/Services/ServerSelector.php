@@ -38,7 +38,12 @@ class ServerSelector
 
     foreach ($servers as $key => $server) {
       $doc = $this->getDocumentLoader();
-      $doc->loadHTMLFile("https://" . $server . "/load.html");
+      $doc->loadHTMLFile(
+        "https://" .
+          $server .
+          "/" .
+          ltrim($this->config->get("paybox.load_uri", "load.html"), "/")
+      );
       $element = $doc->getElementById("server_status");
       if ($element && $element->textContent == "OK") {
         return $urls[$key];
