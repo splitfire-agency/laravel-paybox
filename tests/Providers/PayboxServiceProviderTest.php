@@ -2,6 +2,7 @@
 
 namespace Tests\Providers;
 
+use Illuminate\Config\Repository as Config;
 use Sf\PayboxGateway\Providers\PayboxServiceProvider;
 use Illuminate\Foundation\Application;
 use Mockery;

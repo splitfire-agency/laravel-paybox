@@ -46,6 +46,11 @@ class ServerSelectorTest extends UnitTestCase
       ->with("paybox.test_urls.paybox")
       ->once()
       ->andReturn($urls);
+    $config
+      ->shouldReceive("get")
+      ->with("paybox.load_uri", "load.html")
+      ->once()
+      ->andReturn("load.html");
 
     $serverSelector
       ->shouldReceive("getDocumentLoader")
@@ -93,6 +98,11 @@ class ServerSelectorTest extends UnitTestCase
       ->with("paybox.production_urls.paybox")
       ->once()
       ->andReturn($urls);
+    $config
+      ->shouldReceive("get")
+      ->with("paybox.load_uri", "load.html")
+      ->once()
+      ->andReturn("load.html");
 
     $serverSelector
       ->shouldReceive("getDocumentLoader")
@@ -143,6 +153,11 @@ class ServerSelectorTest extends UnitTestCase
       ->with("paybox.production_urls.paybox")
       ->once()
       ->andReturn($urls);
+    $config
+      ->shouldReceive("get")
+      ->with("paybox.load_uri", "load.html")
+      ->twice()
+      ->andReturn("load.html");
 
     $serverSelector
       ->shouldReceive("getDocumentLoader")
@@ -203,6 +218,11 @@ class ServerSelectorTest extends UnitTestCase
       ->with("paybox.production_urls.paybox")
       ->once()
       ->andReturn($urls);
+    $config
+      ->shouldReceive("get")
+      ->with("paybox.load_uri", "load.html")
+      ->twice()
+      ->andReturn("load.html");
 
     $serverSelector
       ->shouldReceive("getDocumentLoader")

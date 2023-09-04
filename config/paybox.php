@@ -110,6 +110,11 @@ return [
   "transaction_verify_route_name" => "paybox.process",
 
   /*
+   * Load uri (not url) for testing server selector
+   */
+  "load_uri" => "load.html",
+
+  /*
    * Access urls for Paybox for production environment
    */
   "production_urls" => [
