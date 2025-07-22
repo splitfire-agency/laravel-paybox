@@ -18,13 +18,13 @@ jobs:
         run: wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz && rm dockerize-linux-amd64-v0.6.1.tar.gz
 
       - name: Docker build & run
-        run: docker-compose build api && docker-compose up -d api
+        run: docker compose build api && docker compose up -d api
 
       - name: Run Composer install
-        run: docker-compose exec -T api bash -c "composer install"
+        run: docker compose exec -T api bash -c "composer install"
 
       - name: Run tests
-        run: docker-compose exec -T api bash -c "composer run test"
+        run: docker compose exec -T api bash -c "composer run test"
 
   linter:
     name: php-lint
@@ -32,12 +32,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: v1-npm-deps-${{ hashFiles('**/package-lock.json') }}

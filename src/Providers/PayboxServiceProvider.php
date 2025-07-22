@@ -3,6 +3,8 @@
 namespace Sf\PayboxGateway\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use GuzzleHttp\Client;
+use Sf\PayboxGateway\HttpClient\GuzzleHttpClient;
 
 class PayboxServiceProvider extends ServiceProvider
 {
@@ -30,6 +32,12 @@ class PayboxServiceProvider extends ServiceProvider
       ],
       "config"
     );
+
+    // configure GuzzleHttpClient
+    $this->app->singleton(GuzzleHttpClient::class, function ($app) {
+      $guzzle = new Client($app["config"]->get("paybox.guzzle_options", []));
+      return new GuzzleHttpClient($guzzle);
+    });
   }
 
   /**
