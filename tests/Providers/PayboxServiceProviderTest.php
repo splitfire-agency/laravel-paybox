@@ -3,6 +3,7 @@
 namespace Tests\Providers;
 
 use Illuminate\Config\Repository as Config;
+use Sf\PayboxGateway\HttpClient\GuzzleHttpClient;
 use Sf\PayboxGateway\Providers\PayboxServiceProvider;
 use Illuminate\Foundation\Application;
 use Mockery;
@@ -44,6 +45,33 @@ class PayboxServiceProviderTest extends UnitTestCase
 
     $payboxProvider->shouldReceive("loadMigrationsFrom")->once();
 
+    // Configure http client
+    $config = Mockery::mock(Config::class);
+    $config
+      ->shouldReceive("get")
+      ->with("paybox.guzzle_options", [])
+      ->andReturn([
+        "timeout" => 30.0,
+        "connect_timeout" => 10.0,
+      ]);
+
+    $app
+      ->shouldReceive("singleton")
+      ->once()
+      ->with(
+        GuzzleHttpClient::class,
+        Mockery::on(function ($closure) use ($app, $config) {
+          $app
+            ->shouldReceive("offsetGet")
+            ->with("config")
+            ->andReturn($config);
+
+          $result = $closure($app);
+          return $result instanceof GuzzleHttpClient;
+        })
+      );
+
     $payboxProvider->register();
+    $this->assertTrue(true);
   }
 }
