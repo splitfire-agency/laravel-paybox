@@ -2,6 +2,8 @@
 
 namespace Tests\HttpClient;
 
+use GuzzleHttp\Psr7\Utils;
+use Psr\Http\Message\StreamInterface;
 use Sf\PayboxGateway\HttpClient\GuzzleHttpClient;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
@@ -39,7 +41,7 @@ class GuzzleHttpClientTest extends UnitTestCase
     $response
       ->shouldReceive("getBody")
       ->once()
-      ->andReturn($responseBody);
+      ->andReturn(Utils::streamFor($responseBody));
 
     $response = $guzzleClient->request($url, $parameters);
 
